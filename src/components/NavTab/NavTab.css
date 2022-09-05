@@ -1,0 +1,18 @@
+.navTab {
+    background-color: #F5F5F5;
+    padding: 24px 0;
+}
+
+.navTab__list {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 123%;
+    margin: 0;
+}
+
+.list__item {
+    margin-right: 40px;
+}

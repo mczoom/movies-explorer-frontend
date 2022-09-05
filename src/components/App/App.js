@@ -1,12 +1,14 @@
 // import logo from '../../logo.svg';
 import React from 'react';
 import Main from '../Main/Main';
+import Movies from '../Movies/Movies';
 import './App.css';
 
 function App() {
   return (
     <div className="page">
-      <Main />
+      {/* <Main /> */}
+      <Movies />
     </div>
   );
 }

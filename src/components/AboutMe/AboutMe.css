@@ -1,0 +1,85 @@
+.about-me {
+    margin: 0 70px;
+    padding: 110px 0 125px;
+}
+
+.profile {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 66px;
+    min-height: 327px;
+}
+
+.profile__description {
+    max-width: 600px;
+}
+
+.profile__name {
+    margin: 0 auto 18px;
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 116%;
+    letter-spacing: -0.04em;
+}
+
+.profile__profession {
+    margin: 0 auto 26px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 111%;
+}
+
+.profile__bio {
+    margin: 0 auto 99px;
+}
+
+.profile__github-link {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 121%;
+}
+
+.profile__foto {
+    max-height: 327px;
+    border-radius: 10px;
+    margin-left: 270px;
+}
+
+.about-me__portfolio {
+    margin: 100px 0 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.portfolio__header {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 111%;
+    color: #A0A0A0;
+}
+
+.portfolio__project {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 0;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 167%;
+    letter-spacing: -0.04em;
+}
+
+.portfolio__project:first-of-type {
+    margin-top: 50px;
+}
+
+.portfolio__divider {
+    margin-top: 19px;
+    height: 1px;
+    background: #E8E8E8;
+}
+
+
