@@ -8,7 +8,7 @@ function Movies() {
      
       
     return (
-        <div>
+        <div className='page'>
           <Header />
           <SearchForm />
           <Footer />

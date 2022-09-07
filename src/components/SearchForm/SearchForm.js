@@ -1,5 +1,5 @@
 import React from 'react';
-import findButton from '../../images/find-button.svg'
+import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
 function SearchForm() {
@@ -9,15 +9,9 @@ function SearchForm() {
         <section className='search'>
             <form className='search-form'>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'></input>
-                <button className='find'></button>
+                <button className='search-form__find-button'></button>
             </form>
-            <label className='short-checkbox'>
-                <input type='checkbox' className='checkbox' value='short'></input>
-                <span className="checkbox__visible-checkbox visible-checkbox">
-                    <span className='visible-checkbox__tumbler'></span>
-                </span>
-                <span className="visible-checkbox__label">Короткометражки</span>
-            </label>
+            <FilterCheckbox />
         </section>
     );
 }
