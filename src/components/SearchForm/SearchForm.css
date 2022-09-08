@@ -1,6 +1,6 @@
 .search {
     margin: 0;
-    padding: 60px 70px 81px;
+    padding: 60px 70px 10px;
     background: #FAFAFA;
 }
 
@@ -39,4 +39,11 @@
     background-image: url('../../images/find-button.svg');
     background-position: center;
     border: none;
+}
+
+.search__divider {
+    display: block;
+    height: 1px;
+    background: #E8E8E8;
+    margin-top: 70px;
 }

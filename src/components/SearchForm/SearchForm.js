@@ -12,6 +12,7 @@ function SearchForm() {
                 <button className='search-form__find-button'></button>
             </form>
             <FilterCheckbox />
+            <div className='search__divider'></div>
         </section>
     );
 }

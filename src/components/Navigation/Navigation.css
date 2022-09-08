@@ -1,5 +1,5 @@
 .navigation {
-    max-height: 18px;
+    align-self: center;
 }
 
 .navigation__links {
@@ -23,8 +23,41 @@
     margin-right: 0;
 }
 
+.navigation__item_burger {
+    display: none;
+}
+
 @media screen and (max-width: 768px) {
-    .navigation {
-      display: none;
+  .navigation {
+    position: fixed;
+    flex-direction: column;
+    align-items: center;
+    max-width: 520px;   
+    top: 0;
+    right: -100%;
+    transition: all 0.5s ease;
+    }
+
+  .navigation_burger {        
+    right: 150px;
+    }
+}
+  
+
+@media screen and (max-width: 768px) {
+  .navigation__links {
+    padding-top: 159px;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
     }
   }
+
+@media screen and (max-width: 768px) {
+  .navigation__item {
+    margin-bottom: 28px;
+    margin-right: 0;
+    font-size: 18px;
+    line-height: 121%;
+  }
+} 
