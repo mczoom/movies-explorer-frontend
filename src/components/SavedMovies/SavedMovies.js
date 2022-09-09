@@ -1,22 +1,21 @@
 import React from 'react';
 import Header from '../Header/Header';
-import SearchForm from '../SearchForm/SearchForm';
+
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Footer from '../Footer/Footer';
 
 
-function Movies() {
+function SavedMovies() {
      
       
     return (
         <div className='movies-page'>
-          <Header />
-          <SearchForm />
-          <MoviesCardList />
+          <Header />          
+          <MoviesCardList />              
           <Footer />
         </div>
     );
 }
 
-export default Movies;
+export default SavedMovies;
