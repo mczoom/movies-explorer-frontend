@@ -39,6 +39,7 @@
     background-image: url('../../images/find-button.svg');
     background-position: center;
     border: none;
+    cursor: pointer;
 }
 
 .search__divider {

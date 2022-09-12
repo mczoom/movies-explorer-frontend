@@ -6,7 +6,7 @@ function AboutMe() {
      
       
     return (
-        <section className='about-me'>
+        <section id='about-me'>
           <h2 className='about-me__catchword section__catchword'>Студент</h2>
           <div className='about-me__underline section__underline'></div>
           <div className='about-me__profile profile'>

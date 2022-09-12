@@ -1,20 +1,21 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 
 
 function Navigation({onBurgerMenu}) {
 
     const navBurgerClassName = `navigation ${onBurgerMenu ? 'navigation_burger' : ''}`;
-    const navItemBurgerClassName = `${onBurgerMenu ? 'navigation__item' : 'navigation__item_burger'}`;
+    const navItemBurgerClassName = `${onBurgerMenu ? 'navigation__item' : 'navigation__item_hidden'}`;
      
       
     return (
         <nav className={navBurgerClassName}>
-            <ul className='navigation__links'>
-                <li className={navItemBurgerClassName}><a href='ya.ru' className='link'>Главная</a></li>
-                <li className='navigation__item'><a href='ya.ru' className='link'>Фильмы</a></li>
-                <li className='navigation__item'><a href='ya.ru'className='link'>Сохранённые фильмы</a></li>
-            </ul>
+            <div className='navigation__links'>
+                <NavLink exact to="/" activeClassName='navigation__item-underline' className={navItemBurgerClassName}>Главная</NavLink>
+                <NavLink to="/movies" activeClassName='navigation__item-underline' className='navigation__item'>Фильмы</NavLink>
+                <NavLink to="/saved-movies" activeClassName='navigation__item-underline' className='navigation__item'>Сохранённые фильмы</NavLink>
+            </div>
         </nav>
     );
 }

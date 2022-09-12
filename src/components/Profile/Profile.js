@@ -22,8 +22,12 @@ function Profile() {
                     <span className='profile-info__value'>pochta@yandex.ru</span>
                 </div>
             </div>
-            <button className='profile__edit-button'>Редактировать</button>
-            <button className='profile__logout_button'>Выйти из аккаунта</button>
+            <a href='#' className='link'>
+                <button className='profile__edit-button'>Редактировать</button>
+            </a>
+            <a href='/' className='link'>
+                <button className='profile__logout_button'>Выйти из аккаунта</button>
+            </a>
           </div>
         </div>
     );
