@@ -33,7 +33,7 @@
     overflow: hidden;
 }
 
-.card__like {
+.card__like-button {
     background-image: url('../../images/like-btn.svg');
     background-repeat: no-repeat;
     border: none;
@@ -44,6 +44,25 @@
     margin-left: 12px;
     padding: 0;
     cursor: pointer; 
+}
+
+.card__delete-like-button {
+    background-image: url('../../images/unlike-btn.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    border: none;
+    background-color: #fff;
+    width: 30px;
+    height: 30px;
+    margin: 0;
+    margin-left: 12px;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+}
+
+.card__delete-like-button:hover {
+    opacity: 1;
 }
 
 .card__film-duration {
