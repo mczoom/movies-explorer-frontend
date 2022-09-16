@@ -1,3 +1,18 @@
+.promo-page {
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.section__catchword {
+    margin: 0;    
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 121%;
+    letter-spacing: -0.04em;
+    height: 50px;
+    border-bottom: 1px solid #000;    
+  }
+
 .link {
     color: black;
     text-decoration: none;
@@ -5,4 +20,11 @@
 
 .link_decoration_underline {
     text-decoration: underline;
+}
+
+
+@media screen and (max-width: 320px) {
+    .section__catchword {        
+        font-size: 18px;            
+      }
 }

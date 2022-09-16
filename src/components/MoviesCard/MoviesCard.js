@@ -15,7 +15,7 @@ function MoviesCard() {
             <a href='ya.ru' className='link'>
                 <span className='card__title'>33 слова о дизайне</span>
             </a>    
-            <button className='card__like'></button>
+            <button className='card__like' type='button'></button>
             </div>
             <span className='card__film-duration'>1ч 47м</span>
         </div>

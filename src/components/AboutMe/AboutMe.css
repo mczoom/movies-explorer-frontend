@@ -1,20 +1,21 @@
 #about-me {
-    margin: 0 70px;
-    padding: 110px 0 125px;
+    margin: 0 auto;
+    padding: 110px 70px 125px;
+    background-color: #FAFAFA;;
 }
 
-.about-me__profile {
+.about-me__profile-info {
     display: flex;
     justify-content: space-between;
     margin-top: 66px;
     min-height: 327px;
 }
 
-.profile__description {
+.profile-info__description {
     max-width: 600px;
 }
 
-.profile__name {
+.profile-info__name {
     margin: 0 auto 18px;
     font-size: 50px;
     font-weight: 400;
@@ -22,28 +23,33 @@
     letter-spacing: -0.04em;
 }
 
-.profile__profession {
+.profile-info__profession {
     margin: 0 auto 26px;
     font-size: 18px;
     font-weight: 500;
     line-height: 111%;
 }
 
-.profile__bio {
+.profile-info__bio {
     margin: 0 auto 99px;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 157%;
 }
 
-.profile__github-link {
+.profile-info__contact-link {
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
     line-height: 121%;
 }
 
-.profile__foto {
-    max-height: 327px;
+.profile-info__foto {
+    width: 270px;
+    height: 100%;
     border-radius: 10px;
-    margin-left: 270px;
+    margin-left: 270px;   
 }
 
 .about-me__portfolio {
@@ -83,3 +89,109 @@
 }
 
 
+@media screen and (max-width: 845px) {
+    .profile-info__foto {
+        margin-left: 170px;   
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+
+    #about-me {        
+        padding: 90px 50px;        
+    }
+
+    .profile-info__foto {
+        width: 255px;
+        margin-left: 49px;    
+    }
+
+    .profile-info__name {
+        margin-bottom: 16px;
+        font-size: 40px;
+        line-height: 100%;
+    }
+
+    .profile-info__profession {
+        margin-bottom: 20px;
+        font-size: 12px;
+        line-height: 150%;
+    }
+
+    .profile-info__bio {
+        margin: 0 auto 87px;
+        max-width: 100%;
+        font-size: 12px;        
+        line-height: 150%;
+    }
+
+    .about-me__portfolio {
+        margin-top: 91px;        
+    }
+
+    .portfolio__project {
+        font-size: 28px;        
+        line-height: 179%;        
+    }
+}
+
+@media screen and (max-width: 570px) {    
+
+    .profile-info__foto {
+        width: 180px;        
+        margin-left: 30px;    
+    }
+}
+
+
+@media screen and (max-width: 420px) {
+
+    #about-me {        
+        padding: 70px 14px;
+        background-color: #FAFAFA;;
+    }    
+    
+    .about-me__profile-info {
+        flex-direction: column-reverse;
+        align-items: center;        
+        margin-top: 60px;        
+    }
+
+    .profile-info__foto {
+        width: 292px;                
+        margin: 0;
+        margin-bottom: 40px;   
+    }
+
+    .profile-info__name {
+        margin-bottom: 20px;
+        font-size: 30px;
+        line-height: 121%;
+    }
+
+    .profile-info__profession {
+        font-size: 11px;
+        line-height: 145%;
+    }
+
+    .profile-info__bio {
+        margin: 0 auto 40px;
+        font-size: 11px;        
+        line-height: 145%;
+    }
+
+    .about-me__portfolio {
+        margin-top: 70px;        
+    }
+
+    .portfolio__header {
+        font-size: 14px;        
+        line-height: 143%;       
+    }
+    
+    .portfolio__project {
+        font-size: 18px;        
+        line-height: 156%;        
+    }    
+}

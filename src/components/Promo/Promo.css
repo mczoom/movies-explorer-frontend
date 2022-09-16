@@ -18,3 +18,25 @@
     text-align: center;
     letter-spacing: -0.04em;
 }
+
+
+@media screen and (max-width: 768px) {
+    .promo {        
+        height: 784px;
+        padding-left: 19px;
+        padding-right: 19px;    
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .promo { 
+        height: 570px;
+        padding-left: 10px;
+        padding-right: 10px; 
+    }
+
+    .promo__heading {
+        font-size: 31px;
+        line-height: 126%;        
+    }
+}

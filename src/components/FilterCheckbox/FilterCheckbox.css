@@ -1,7 +1,13 @@
-.checkbox {
+.checkbox-wrap {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
 }
 
 .checkbox__short-checkbox {
@@ -16,8 +22,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin: 0;
-    margin-right: 14px;
+    margin: 0;    
     padding: 2px;
     width: 36px;
     height: 20px;
@@ -43,7 +48,18 @@
 }
 
 .checkbox__name {
+    margin: 0;
+    margin-left: 12px;
     font-size: 14px;
     font-weight: 400;
     line-height: 129%;
+}
+
+
+@media screen and (max-width: 320px) {
+    .checkbox__name {
+        margin-left: 13px;
+        font-size: 11px;        
+        line-height: 164%;
+    }
 }

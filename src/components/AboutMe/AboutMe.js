@@ -7,37 +7,31 @@ function AboutMe() {
       
     return (
         <section id='about-me'>
-          <h2 className='about-me__catchword section__catchword'>Студент</h2>
-          <div className='about-me__underline section__underline'></div>
-          <div className='about-me__profile profile'>
-                <div className='profile__description'>
-                    <h3 className='profile__name'>Андрей</h3>
-                    <h4 className='profile__profession'>Фронтенд-разработчик, 38 лет</h4>
-                    <p className='profile__bio'>Я родился в Москве, в семидесятом.
-                        На краю города, моча рано ударила в голову:
-                        В четыре активно ругался матом.
-                        В детском саду девочки впервые показали мне п****.
-                        Потом школа, вонючая форма.
-                        Драки, клей - так я становился сильней.
-                        Воровал деньги в раздевалке, в восемь начал курить.
-                        В одиннадцать кинул первую палку, забил на родителей.
+          <h2 className='section__catchword'>Студент</h2>
+          <div className='about-me__profile-info'>
+                <div className='profile-info__description'>
+                    <h3 className='profile-info__name'>Андрей</h3>
+                    <h4 className='profile-info__profession'>Фронтенд-разработчик, 38 лет</h4>
+                    <p className='profile-info__bio'>Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена 
+                      и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». 
+                      После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
                     </p>
-                    <a href='ya.ru' className='profile__github-link link'>Github</a>
+                    <a href='https://github.com/mczoom' className='profile-info__contact-link link' target='_blank'>Github</a>
                 </div>
-                <img src={profileFoto} className='profile__foto' alt='Моё фото'></img>
+                <img src={profileFoto} className='profile-info__foto' alt='Моё фото'></img>
           </div>          
-          <div className='about-me__portfolio portfolio'>
+          <div className='about-me__portfolio'>
               <h4 className='portfolio__header'>Портфолио</h4>
               <div className='portfolio__project'>
-                  <a href='ya.ru' className='link'>Статичный сайт</a><img src={arrow} />
+                  <a href='https://github.com/mczoom/how-to-learn' className='link' target='_blank'>Статичный сайт</a><img src={arrow} />
               </div>
               <div className='portfolio__divider'></div>
               <div className='portfolio__project'>
-                  <a href='ya.ru' className='link'>Адаптивный сайт</a><img src={arrow} />
+                  <a href='https://mczoom.github.io/russian-travel/' className='link' target='_blank'>Адаптивный сайт</a><img src={arrow} />
               </div>
               <div className='portfolio__divider'></div>
               <div className='portfolio__project'>
-                  <a href='ya.ru' className='link'>Одностраничное приложение</a><img src={arrow} />
+                  <a href='https://myflicks.nomoredomains.sbs' className='link' target='_blank'>Одностраничное приложение</a><img src={arrow} />
               </div>
           </div>          
         </section>

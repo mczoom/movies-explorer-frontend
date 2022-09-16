@@ -11,7 +11,7 @@ function Main() {
      
       
     return (
-        <div>
+        <div className='promo-page'>
           <Header />
           <Promo />
           <NavTab />
