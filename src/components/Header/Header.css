@@ -158,7 +158,8 @@
       width: 520px;
       height: 100vh;
       background: #FAFAFA;
-      overflow: auto;        
+      overflow: auto;
+        
     }
   
     .burger-menu__close-button {
@@ -180,9 +181,8 @@
       padding: 0 14px;
     }
 
-    .header__account_burger {
-      right: 110px;
-    }  
+    
+  
   }
 
    
