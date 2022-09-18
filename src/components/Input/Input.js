@@ -7,13 +7,7 @@ function Input({inputName, register, errors}) {
         
       
     return (        
-        // <div className='form__input'>
-        //     <label className='form__input-label'>{inputName}
-        //         <input className='form__input input' placeholder={placeholder} type={type}></input>
-        //     </label>
-        //     <span className='form__input-error-message'></span>
-        // </div>
-
+        
     <div className='form__input'>
         <label className='form__input-label'>{inputName}
             <input className='form__input input' {...register(inputName, {

@@ -1,8 +1,8 @@
 #techs {
     display: flex;
     flex-direction: column;
-    padding: 100px 70px 0 70px;
-    background: #F5F5F5;
+    padding: 100px 70px;
+    background: #F5F5F5;    
 }
 
 .techs__header {
@@ -48,8 +48,7 @@
     height: 60px;
     background: #E8E8E8;
     border-radius: 10px;
-    margin-right: 10px;
-    margin-bottom: 100px;
+    margin-right: 10px;    
 }
 
 .stack__skill:last-of-type {
@@ -60,7 +59,7 @@
 @media screen and (max-width: 768px) {
 
     #techs {        
-        padding: 90px 50px 0 50px;
+        padding: 90px 50px;
         background-color: #FAFAFA;       
     }
 
@@ -76,13 +75,18 @@
     }
 
     .techs__stack {
-        font-size: 12px;        
+        font-size: 12px; 
+        display: grid;        
+        margin: 0 auto;
+        grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+        grid-template-rows: repeat(auto-fit, minmax(57px, 57px));
+        max-width: 100%;
+        gap: 10px;       
     }
 
     .stack__skill {        
         width: 84px;
-        height: 57px;
-        margin-bottom: 90px;
+        height: 57px;        
     }
 }
 

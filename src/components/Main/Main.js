@@ -13,11 +13,13 @@ function Main() {
     return (
         <div className='promo-page'>
           <Header />
-          <Promo />
-          <NavTab />
-          <AboutProject />
-          <Techs />
-          <AboutMe />
+          <main>
+            <Promo />
+            <NavTab />
+            <AboutProject />
+            <Techs />
+            <AboutMe />
+          </main>
           <Footer />
         </div>
     );

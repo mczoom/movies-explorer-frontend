@@ -30,7 +30,7 @@ function Register() {
         <section className='form-section'>
             <div className='form-section__wrap'>
                 <a href='/' className='logo'>
-                    <img src={logo}></img>
+                    <img src={logo} alt='Логотип проекта' />
                 </a>
                 <h1 className='form-section__header'>Добро пожаловать!</h1>            
             <form className='form' onSubmit={handleSubmit(onSubmit)}>
@@ -76,7 +76,7 @@ function Register() {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>        
                 </div>
-                <button className='form__submit-button'>Зарегистрироваться</button>               
+                <button className='form__submit-button' type='submit'>Зарегистрироваться</button>               
             </form>
             </div>            
             <div className='form-section__link-wrap'>

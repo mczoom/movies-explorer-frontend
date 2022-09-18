@@ -76,6 +76,7 @@
     font-weight: 400;
     line-height: 167%;
     letter-spacing: -0.04em;
+    color: black;
 }
 
 .portfolio__project:first-of-type {
@@ -86,6 +87,13 @@
     margin-top: 19px;
     height: 1px;
     background: #E8E8E8;
+}
+
+.portfolio__link-icon {    
+    width: 29px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../../images/arrow.svg');
 }
 
 
@@ -133,6 +141,10 @@
     .portfolio__project {
         font-size: 28px;        
         line-height: 179%;        
+    }
+
+    .portfolio__link-icon {        
+        width: 27px;
     }
 }
 
@@ -193,5 +205,10 @@
     .portfolio__project {
         font-size: 18px;        
         line-height: 156%;        
-    }    
+    }
+    
+    .portfolio__link-icon {    
+        width: 18px;
+        height: 28px;
+    }
 }

@@ -22,17 +22,26 @@ function AboutMe() {
           </div>          
           <div className='about-me__portfolio'>
               <h4 className='portfolio__header'>Портфолио</h4>
-              <div className='portfolio__project'>
-                  <a href='https://github.com/mczoom/how-to-learn' className='link' target='_blank'>Статичный сайт</a><img src={arrow} />
-              </div>
-              <div className='portfolio__divider'></div>
-              <div className='portfolio__project'>
-                  <a href='https://mczoom.github.io/russian-travel/' className='link' target='_blank'>Адаптивный сайт</a><img src={arrow} />
-              </div>
-              <div className='portfolio__divider'></div>
-              <div className='portfolio__project'>
-                  <a href='https://myflicks.nomoredomains.sbs' className='link' target='_blank'>Одностраничное приложение</a><img src={arrow} />
-              </div>
+              <ul className='about-me__portfolio-projects list'>
+                <li>
+                  <a href='https://github.com/mczoom/how-to-learn' className='portfolio__project' target='_blank'>
+                    <span >Статичный сайт</span>
+                    <div className='portfolio__link-icon'></div>                    
+                  </a>
+                </li>
+                <li>
+                  <a href='https://mczoom.github.io/russian-travel/' className='portfolio__project' target='_blank'>
+                    <span>Адаптивный сайт</span>
+                    <div className='portfolio__link-icon'></div>
+                  </a>
+                </li>
+                <li>
+                  <a href='https://myflicks.nomoredomains.sbs' className='portfolio__project' target='_blank'>
+                    <span>Одностраничное приложение</span>
+                    <div className='portfolio__link-icon'></div>
+                  </a>
+                </li>
+              </ul>
           </div>          
         </section>
     );

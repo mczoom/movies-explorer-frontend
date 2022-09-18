@@ -23,10 +23,10 @@ function Profile() {
                 </div>
             </div>
             <a href='#' className='link'>
-                <button className='profile__edit-button'>Редактировать</button>
+                <button className='profile__edit-button' type='button'>Редактировать</button>
             </a>
             <a href='/' className='link'>
-                <button className='profile__logout_button'>Выйти из аккаунта</button>
+                <button className='profile__logout_button' type='button'>Выйти из аккаунта</button>
             </a>
           </div>
         </div>

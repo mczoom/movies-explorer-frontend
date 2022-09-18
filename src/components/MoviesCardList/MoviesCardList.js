@@ -16,7 +16,7 @@ function MoviesCardList() {
                 <li><MoviesCard /></li>
                 <li><MoviesCard /></li>
             </ul>
-            <button className='pagination-button'>Ещё</button>
+            <button className='pagination-button' type='button'>Ещё</button>
         </section>
     );
 }

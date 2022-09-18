@@ -29,7 +29,7 @@ function Login() {
         <section className='form-section'>
             <div className='form-section__wrap'>
                 <a href='/' className='logo'>
-                    <img src={logo}></img>
+                    <img src={logo} alt='Логотип проекта' />
                 </a>
                 <h1 className='form-section__header'>Рады видеть!</h1>            
                 <form className='form' method="post" onSubmit={handleSubmit(onSubmit)}>
@@ -61,7 +61,7 @@ function Login() {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>        
                 </div>
-                <button className='form__submit-button'>Войти</button>               
+                <button className='form__submit-button' type='submit'>Войти</button>               
             </form>
             </div>
             <div className='form-section__link-wrap'>
