@@ -5,14 +5,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function Movies() {
+function Movies({onSearch, movies}) {
      
       
     return (
         <div className='movies-page'>
           <Header />
           <main>
-            <SearchForm />
+            <SearchForm onSearch={onSearch} movies={movies}/>
             <MoviesCardList />
           </main>
           <Footer />

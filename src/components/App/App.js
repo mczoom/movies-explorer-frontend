@@ -8,8 +8,29 @@ import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
 import Page404 from '../Page404/Page404';
+import * as apiBF from '../utils/MoviesApi';
+
+
+
 
 function App() {
+
+  const [movies, setMovies] = React.useState([]);
+
+  function handleMovieSearch(e) {
+    e.preventDefault();
+    if (!movies.length) {
+      apiBF.getAllMovies()
+      .then((data) => setMovies(data))      
+      .catch(err => console.log(err))
+    }
+}
+
+
+
+
+
+
   return (
     <div className="page">
       <Switch>
@@ -17,7 +38,7 @@ function App() {
           <Main />
         </Route>
         <Route exact path="/movies">
-        <Movies />
+        <Movies onSearch={handleMovieSearch} movies={movies} />
         </Route>
         <Route exact path="/saved-movies">
         <SavedMovies />
