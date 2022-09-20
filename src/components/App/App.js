@@ -15,16 +15,24 @@ import * as apiBF from '../utils/MoviesApi';
 
 function App() {
 
-  const [movies, setMovies] = React.useState([]);
+  const [allMovies, setAllMovies] = React.useState([]);
+  const [isSearchUsed, setIsSearchUsed] = React.useState(false);
+  
 
-  function handleMovieSearch(e) {
-    e.preventDefault();
-    if (!movies.length) {
-      apiBF.getAllMovies()
-      .then((data) => setMovies(data))      
-      .catch(err => console.log(err))
+  
+  function handleMovieSearch(searchQuery) {    
+    apiBF.getAllMovies()
+      .then((data) =>setAllMovies(data))      
+      .catch(err => console.log(err));
+      const searchedMovies = allMovies.filter(movie => {
+       return movie.nameRU.toLowerCase().includes(searchQuery);            
+      })
+      localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));       
     }
-}
+      
+      
+    
+
 
 
 
@@ -38,7 +46,7 @@ function App() {
           <Main />
         </Route>
         <Route exact path="/movies">
-        <Movies onSearch={handleMovieSearch} movies={movies} />
+        <Movies onSearch={handleMovieSearch} movies={allMovies} isSearchUsed={setIsSearchUsed} />
         </Route>
         <Route exact path="/saved-movies">
         <SavedMovies />
