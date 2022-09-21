@@ -31,7 +31,7 @@ function MoviesCard({cover, title, duration, link}) {
                 <span className='card__film-duration'>{durationHours}ч {durationMinutes}м</span> :
             <div>
                 {(duration % 60) === 0 ?
-                <span className='card__film-duration'>{durationHours*60}м</span> :
+                <span className='card__film-duration'>{durationHours}ч</span> :
                 <span className='card__film-duration'>{durationMinutes}м</span>
                 }
             </div>
