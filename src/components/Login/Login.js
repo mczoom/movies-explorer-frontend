@@ -4,23 +4,29 @@ import logo from '../../images/logo.svg';
 
 
 
-function Login() {
+function Login({handleLogin}) {
 
     const { 
         register,
-        formState: {errors},
+        formState: {errors, isValid},
         handleSubmit,
+        getValues,
         reset,
        } = useForm({
            mode: "onChange"
        });
 
+
+       
+
+    const email = getValues('email');
+    const password = getValues('password');
+
     const emailInputClassName = `form__input input ${errors.email ? 'input_invalid' : ''}`;
     const passwordInputClassName = `form__input input ${errors.password ? 'input_invalid' : ''}`;
 
-    const onSubmit = (data) => {
-        console.log((JSON.stringify(data)));
-        reset();
+    const onSubmit = (email, password) => {
+        handleLogin(email, password);
     }
 
      
@@ -37,7 +43,7 @@ function Login() {
                     <label className='form__input-label'>E-mail
                         <input className={emailInputClassName} placeholder='Электронная почта' type='email'
                         {...register("email", {
-                        required: "Нужно заполнить!", 
+                        required: "Введите адрес электронной почты", 
                         pattern: { 
                             value: /^[_a-z0-9-\+-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i,
                             message: "Введите адрес электронной почты"
@@ -51,7 +57,7 @@ function Login() {
                     <label className='form__input-label'>Пароль
                         <input className={passwordInputClassName} placeholder='Введите пароль' type='password'
                         {...register("password", {
-                        required: "Нужно заполнить!", 
+                        required: "Введите пароль", 
                         minLength: { 
                             value: 6,
                             message: "Пароль должен быть не менее 6 символов"
@@ -61,7 +67,7 @@ function Login() {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>        
                 </div>
-                <button className='form__submit-button' type='submit'>Войти</button>               
+                <button className='form__submit-button' type='submit' disabled={!isValid}>Войти</button>               
             </form>
             </div>
             <div className='form-section__link-wrap'>

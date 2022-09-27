@@ -27,14 +27,14 @@ function MoviesCard({cover, title, duration, link}) {
                 <button className='card__like-button' type='button'></button>
             }                       
             </div>
-                {duration > 60 ? 
+                {duration > 60 && (duration % 60) !== 0 ? 
                 <span className='card__film-duration'>{durationHours}ч {durationMinutes}м</span> :
-            <div>
+            <>
                 {(duration % 60) === 0 ?
                 <span className='card__film-duration'>{durationHours}ч</span> :
                 <span className='card__film-duration'>{durationMinutes}м</span>
                 }
-            </div>
+            </>
             }
             
             

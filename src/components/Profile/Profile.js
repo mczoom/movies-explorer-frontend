@@ -1,34 +1,50 @@
 import React from 'react';
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import Header from '../Header/Header';
+import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
 
 
-function Profile() {
+function Profile({onLogout, setCurrentUserInfo, isLoggedIn, onEdit, isEditProfilePopupOpen, onClose, onUpdate, updateUserInfoResponse}) {
      
-    const userName = 'Андрей';
-      
+    const currentUser = React.useContext(CurrentUserContext);
+
+    const [currentUserName, setCurrentUserName] = React.useState(currentUser.name);
+    const [currentUserEmail, setCurrentUserEmail] = React.useState(currentUser.email);
+    
+
+
+    
+    React.useEffect(() => {
+        setCurrentUserName(currentUser.name);
+        setCurrentUserEmail(currentUser.email);
+      }, []); 
+    
+       
+
+          
     return (
         <div className='profile'>
           <Header />
           <div className='profile__container'>
-            <h1 className='profile__header'>Привет, {userName}!</h1>
-            <div className='profile__profile-info'>
+            <h1 className='profile__header'>Привет, {currentUser.name}!</h1>
+            <form className='profile__profile-info'>
                 <div className='profile-info__field'>
                     <span className='profile-info__header'>Имя</span>
-                    <span className='profile-info__value'>{userName}</span>
+                    <span className='profile-info__value' >{currentUser.name}</span>
                 </div>
                 <div className='profile-info__divider'></div>
                 <div className='profile-info__field'>
                     <span className='profile-info__header'>E-mail</span>
-                    <span className='profile-info__value'>pochta@yandex.ru</span>
+                    <span className='profile-info__value'>{currentUser.email}</span>
                 </div>
-            </div>
-            <a href='#' className='link'>
-                <button className='profile__edit-button' type='button'>Редактировать</button>
-            </a>
-            <a href='/' className='link'>
-                <button className='profile__logout_button' type='button'>Выйти из аккаунта</button>
-            </a>
+                <span className='profile__edit-message'>{updateUserInfoResponse}</span>
+            </form>
+                
+                <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>           
+                <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>
+            
           </div>
+          <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} onUpdate={onUpdate} />
         </div>
     );
 }

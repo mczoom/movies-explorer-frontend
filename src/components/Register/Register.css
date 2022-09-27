@@ -101,6 +101,11 @@
     cursor: pointer;
 }
 
+.form__submit-button:disabled {
+    cursor: default;
+    opacity: 0.3;
+}
+
 .form-section__link-wrap {
     margin-top: 16px;
 }
@@ -118,6 +123,22 @@
     font-weight: 400;
     line-height: 121%;
     color: #3456F3;
+}
+
+.form__submitButton-wrap {
+    position: relative;
+    align-items: center;
+}
+
+.form__reg-error-message {
+    position: absolute;
+    top: 100px;
+    left: 30px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 121%;
+    color: #EE3465;
 }
 
 
@@ -171,5 +192,11 @@
     
     .form-section__link {
         font-size: 12px;        
-    }   
+    }  
+    
+    .form__reg-error-message {      
+    top: 160px;
+    left: 15px;    
+    font-size: 13px;    
+    }
 }

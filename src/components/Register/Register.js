@@ -5,21 +5,30 @@ import logo from '../../images/logo.svg';
 
 
 
-function Register() {
+function Register({handleRegistration, registrationResponse}) {
 
     const { 
          register,
          formState: {errors},
          handleSubmit,
+         getValues,
          reset,
         } = useForm({
             mode: "onChange"
         });
 
-        const onSubmit = (data) => {
-            console.log((JSON.stringify(data)));
-            reset();
+        
+        const name = getValues('userName');
+        const email = getValues('email');
+        const password = getValues('password');
+
+        
+        function onSubmit() {            
+            handleRegistration(name, email, password);
         }
+
+        const [isSearchUse, setIsSearchUse] = React.useState('hhh');
+        
 
         const nameInputClassName = `form__input input ${errors.userName ? 'input_invalid' : ''}`;
         const emailInputClassName = `form__input input ${errors.email ? 'input_invalid' : ''}`;
@@ -66,7 +75,7 @@ function Register() {
                     <label className='form__input-label'>Пароль
                         <input className={passwordInputClassName} placeholder='Введите пароль' type='password'
                         {...register("password", {
-                        required: "Необходимо заполнить", 
+                        required: "ведите пароль", 
                         minLength: { 
                             value: 6,
                             message: "Пароль должен быть не менее 6 символов"
@@ -76,7 +85,10 @@ function Register() {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>        
                 </div>
-                <button className='form__submit-button' type='submit'>Зарегистрироваться</button>               
+                <div className='form__submitButton-wrap'>
+                <span className='form__reg-error-message'>{registrationResponse}</span>
+                <button className='form__submit-button' type='submit' >Зарегистрироваться</button>                
+                </div>
             </form>
             </div>            
             <div className='form-section__link-wrap'>
