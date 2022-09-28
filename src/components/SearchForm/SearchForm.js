@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onChecked, isShortFilmChecked, isSearchUsed}) {
+function SearchForm({onSearch, onChecked, isShortFilmChecked}) {
 
     const { 
         register,
-        formState: {errors, isTouched},
+        formState: {errors},
         handleSubmit,
         reset,
         getValues,
@@ -30,8 +30,7 @@ function SearchForm({onSearch, onChecked, isShortFilmChecked, isSearchUsed}) {
         <section className='search'>
             <form className='search-form' onSubmit={handleSubmit(handleSearchSubmit)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
-                {...register('movie', {
-                    
+                {...register('movie', {                    
                     required: 'Введите название фильма в строку поиска', 
                     minLength: { 
                         value: 2,

@@ -5,14 +5,14 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function Movies({onSearch, movies, isSearchUsed, onChecked, isShortFilmChecked}) {
+function Movies({onSearch, onChecked, isShortFilmChecked, isSearchUsed}) {
      
       
     return (
         <div className='movies-page'>
           <Header />
           <main>
-            <SearchForm onSearch={onSearch} movies={movies} isSearchUsed={isSearchUsed} onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} />
+            <SearchForm onSearch={onSearch} onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} />
             <MoviesCardList />
           </main>
           <Footer />

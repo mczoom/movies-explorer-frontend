@@ -11,15 +11,11 @@ function Profile({onLogout, setCurrentUserInfo, isLoggedIn, onEdit, isEditProfil
     const [currentUserName, setCurrentUserName] = React.useState(currentUser.name);
     const [currentUserEmail, setCurrentUserEmail] = React.useState(currentUser.email);
     
-
-
     
     React.useEffect(() => {
         setCurrentUserName(currentUser.name);
         setCurrentUserEmail(currentUser.email);
-      }, []); 
-    
-       
+      }, []);       
 
           
     return (

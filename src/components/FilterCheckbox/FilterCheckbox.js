@@ -4,17 +4,7 @@ import React from 'react';
 function FilterCheckbox({onChecked, isShortFilmChecked}) {
    
    
-    
 
-    
-
-    
-//  React.useEffect(() => {  
-                
-//             JSON.stringify(localStorage.setItem('checkboxStatus', !isShortFilmChecked));
-            
-        
-//     }, [])
 
     const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
 
