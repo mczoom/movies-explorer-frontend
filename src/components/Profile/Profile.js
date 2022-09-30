@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
 
 
-function Profile({onLogout, setCurrentUserInfo, isLoggedIn, onEdit, isEditProfilePopupOpen, onClose, onUpdate, updateUserInfoResponse}) {
+function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, updateUserInfoResponse}) {
      
     const currentUser = React.useContext(CurrentUserContext);
 
@@ -40,7 +40,7 @@ function Profile({onLogout, setCurrentUserInfo, isLoggedIn, onEdit, isEditProfil
                 <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>
             
           </div>
-          <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} onUpdate={onUpdate} />
+          <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} currentUserEmail={currentUserEmail} onUpdate={onUpdate} />
         </div>
     );
 }

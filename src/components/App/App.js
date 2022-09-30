@@ -19,8 +19,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 function App() {
 
   const [currentUser, setCurrentUser] = React.useState({});
-  // const [allMovies, setAllMovies] = React.useState([]);
-   
+  const [allSavedMovies, setAllSavedMovies] = React.useState([]);
+  const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState(''); 
   const [isSearchUsed, setIsSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
@@ -121,6 +121,29 @@ function App() {
   }
 
 
+  function updateUserInfo(name, email) {
+    api.updateUser(name, email)
+      .then((res) => {
+        setCurrentUser({name: res.name, email: res.email})
+        setupdateUserInfoResponse('Данные профиля успешно обновлены');
+      })
+      .catch(() => setupdateUserInfoResponse('Что-то пошло не так! Проверьте введённые данные'));
+  }
+
+
+  function handleLike (movie) {
+    api.saveMovie(movie)
+      .catch(err => console.log(err));
+  }
+
+
+  function getAllSavedMovies() {
+    api.getAllSavedMovies()
+      .then((movies) => setAllSavedMovies(movies))
+      .catch(err => console.log(err));
+  }
+
+
   function tokenCheck() {
     const token = localStorage.getItem('token');  
     if(token) {    
@@ -135,8 +158,7 @@ function App() {
 
 
   function logOut() {
-    localStorage.clear();
-    
+    localStorage.clear();    
     localStorage.setItem('isLoggedIn', false);
     localStorage.setItem('checkboxStatus', false);
     setCurrentUser({});
@@ -177,9 +199,9 @@ function App() {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} />
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} isLoggedIn={isLoggedIn} />
-          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
+          <ProtectedRoute path="/movies" component={Movies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike}/>
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} isLoggedIn={isLoggedIn} getAllSavedMovies={getAllSavedMovies} allSavedMovies={allSavedMovies} />
+          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />
           </Route>          

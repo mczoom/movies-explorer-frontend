@@ -5,8 +5,12 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies() {
-     
+function SavedMovies({getAllSavedMovies, allSavedMovies}) {
+
+  React.useEffect(() => {
+    getAllSavedMovies();  
+  }, [])
+
       
     return (
         <div className='movies-page'>

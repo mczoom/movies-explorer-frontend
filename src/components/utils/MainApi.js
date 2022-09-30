@@ -81,3 +81,39 @@ export const register = (name, email, password) => {
     .then(res => res.json())    
     .catch((err) => console.log(err));
 }
+
+export const saveMovie = (movie) => {
+  return fetch(`${BASE_URL}/movies`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem('token')}`,
+    },
+    body: JSON.stringify({
+      country: movie.country,
+      director: movie.director,
+      duration: movie.duration,
+      year: movie.year,
+      description: movie.description,
+      trailerLink: movie.trailerLink,
+      nameRU: movie.nameRU,
+      nameEN: movie.nameEN,
+      image: `https://api.nomoreparties.co${movie.image.url}`, 
+      thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+      movieId: movie.id})
+  })
+  .then(res => res.json())    
+  .catch((err) => console.log(err));
+};
+
+
+export const getAllSavedMovies = () => {
+  return fetch(`${BASE_URL}/movies`, {
+    headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        }
+    })
+    .then(res => res.json())    
+    .catch((err) => console.log(err));
+  }; 

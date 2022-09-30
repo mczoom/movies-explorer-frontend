@@ -5,12 +5,22 @@ import words from '../../images/covers/33_words.png';
 
 
 
-function MoviesCard({cover, title, duration, link}) {
+function MoviesCard({movie, cover, title, duration, link, handleLike}) {
 
     const location = useLocation();
 
+    const [isLiked, setIsLiked] = React.useState(false)
+
+    const likeButtonClassName = `card__like-button ${isLiked ? 'card__like-button_liked' : ''}`;
+
     const durationHours = Math.floor(duration/60);
     const durationMinutes = duration % 60;
+
+    function like(e) {
+        e.preventDefault();
+        handleLike(movie);
+        setIsLiked(!isLiked);
+    }
      
       
     return (
@@ -24,7 +34,7 @@ function MoviesCard({cover, title, duration, link}) {
             </a>
             {location.pathname === '/saved-movies' ? 
                 <button className='card__delete-like-button' type='button'></button> : 
-                <button className='card__like-button' type='button'></button>
+                <button className={likeButtonClassName} type='button' onClick={like}></button>
             }                       
             </div>
                 {duration > 60 && (duration % 60) !== 0 ? 
