@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import words from '../../images/covers/33_words.png';
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 
 
 
-function MoviesCard({movie, cover, title, duration, link, handleLike}) {
+function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete}) {
 
+    const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
 
     const [isLiked, setIsLiked] = React.useState(false)
+
+    
+
+    // const isMovieLiked = (movie.owner === currentUser.userId);
 
     const likeButtonClassName = `card__like-button ${isLiked ? 'card__like-button_liked' : ''}`;
 
@@ -21,19 +26,25 @@ function MoviesCard({movie, cover, title, duration, link, handleLike}) {
         handleLike(movie);
         setIsLiked(!isLiked);
     }
+
+    function unLike(e) {
+        e.preventDefault();
+        onDelete(movie);
+        setIsLiked(false);
+    }
      
       
     return (
         <div className='card'>
             <a href={link} className='link' target='_blank'>
-                <img src={`https://api.nomoreparties.co${cover}`} className='card__image' alt='Обложка карточки в виде кадра из фильма' />
+                <img src={cover} className='card__image' alt='Обложка карточки в виде кадра из фильма' />
             </a>
             <div className='card__title-wrap'>
             <a href='ya.ru' className='link' target='_blank'>
                 <span className='card__title'>{title}</span>
             </a>
             {location.pathname === '/saved-movies' ? 
-                <button className='card__delete-like-button' type='button'></button> : 
+                <button className='card__delete-like-button' type='button' onClick={unLike}></button> : 
                 <button className={likeButtonClassName} type='button' onClick={like}></button>
             }                       
             </div>

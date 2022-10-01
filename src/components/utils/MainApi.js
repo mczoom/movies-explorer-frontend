@@ -98,7 +98,7 @@ export const saveMovie = (movie) => {
       trailerLink: movie.trailerLink,
       nameRU: movie.nameRU,
       nameEN: movie.nameEN,
-      image: `https://api.nomoreparties.co${movie.image.url}`, 
+      image: `https://api.nomoreparties.co${movie.image.url}`,
       thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
       movieId: movie.id})
   })
@@ -116,4 +116,17 @@ export const getAllSavedMovies = () => {
     })
     .then(res => res.json())    
     .catch((err) => console.log(err));
-  }; 
+  };
+
+
+  export const deleteSavedMovie = (id) => {
+    return fetch(`${BASE_URL}/movies/${id}`, {
+        method: 'DELETE',
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+        },        
+    })
+    .then(res => res.json())    
+    .catch((err) => console.log(err));
+}

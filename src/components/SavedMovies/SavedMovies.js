@@ -5,11 +5,11 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({getAllSavedMovies, allSavedMovies}) {
+function SavedMovies({updateAllSavedMovies, deleteSavedMovie, allSavedMovies}) {
 
-  React.useEffect(() => {
-    getAllSavedMovies();  
-  }, [])
+  // React.useEffect(() => {
+  //   getAllSavedMovies();  
+  // })
 
       
     return (
@@ -17,7 +17,7 @@ function SavedMovies({getAllSavedMovies, allSavedMovies}) {
           <Header />
           <main>
             <SearchForm />
-            <MoviesCardList />
+            <MoviesCardList onDelete={deleteSavedMovie} />
           </main>           
           <Footer />
         </div>
