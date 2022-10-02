@@ -154,9 +154,10 @@ console.log(savedMoviess);
   
 function deleteSavedMovie(movie) {
     api.deleteSavedMovie(movie._id)
+    .then(() => updateAllSavedMovies())
      
       .catch(err => console.log(err));
-      updateAllSavedMovies();
+      
       
   }
 

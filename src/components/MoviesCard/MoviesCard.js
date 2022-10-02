@@ -12,11 +12,16 @@ function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete})
 
     const [isLiked, setIsLiked] = React.useState(false)
 
-    
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
 
-    // const isMovieLiked = (movie.owner === currentUser.userId);
+    const currentUserSavedMovies = savedMovies.filter((movie) => (movie.owner === currentUser.userId));
 
-    const likeButtonClassName = `card__like-button ${isLiked ? 'card__like-button_liked' : ''}`;
+    const isMovieSaved = currentUserSavedMovies.some(function(film) {
+        return film.movieId === movie.id;
+    });
+
+   
+    const likeButtonClassName = `card__like-button ${isMovieSaved ? 'card__like-button_liked' : ''}`;
 
     const durationHours = Math.floor(duration/60);
     const durationMinutes = duration % 60;
