@@ -19,7 +19,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 function App() {
 
   const [currentUser, setCurrentUser] = React.useState({});
-  const [savedMoviess, setSavedMoviess] = React.useState([]);
+  const [foundMovies, setFoundMovies] = React.useState([]);
+  const [savedMovies, setSavedMovies] = React.useState([]);
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState(''); 
   const [isSearchUsed, setIsSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setShortFilmChecked] = React.useState(false);
@@ -37,7 +38,8 @@ function App() {
     const searchedMovies = allMovies.filter(movie => {
       return movie.nameRU.toLowerCase().includes(searchQuery);
     })
-    localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));    
+    localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+    setFoundMovies(searchedMovies);
   }
 
   function searchShortMovies(searchQuery) {
@@ -46,34 +48,26 @@ function App() {
       return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
     })
      localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+     setFoundMovies(searchedMovies);
   }
 
 
   
-  function handleMovieSearch(searchQuery) {    
+  function handleMovieSearch(searchQuery) {
+    if(!isSearchUsed) {
       apiBF.getAllMovies()
         .then((data) => {
           localStorage.setItem('allMovies', JSON.stringify(data));          
           (isShortFilmChecked) ? searchShortMovies(searchQuery) : searchMovies(searchQuery);
           setIsSearchUsed(true);
         })       
-        .catch(err => console.log(err));        
-      }
+        .catch(err => console.log(err));
+    } else {
+        (isShortFilmChecked) ? searchShortMovies(searchQuery) : searchMovies(searchQuery);
+    }
+  }
 
-
-  // function handleMovieSearch(searchQuery) {    
-  //   apiBF.getAllMovies()
-  //     .then((data) => {
-  //       setAllMovies(data);
-  //       (isShortFilmChecked) ? searchShortMovies(searchQuery) : searchMovies(searchQuery);
-  //     })  
-  //     .catch(err => console.log(err));
       
-  //     setIsSearchUsed(true);
-  //   }
-
-
-     
     
     function handleCheckboxChange(searchQuery) {      
       setShortFilmChecked(!isShortFilmChecked);
@@ -145,22 +139,20 @@ function App() {
     api.getAllSavedMovies()
       .then((movies) => {
         localStorage.setItem('savedMovies', JSON.stringify(movies));
-        setSavedMoviess(movies);
+        setSavedMovies(movies);
       })
       .catch(err => console.log(err));
   }
-console.log(savedMoviess);
+
 
   
 function deleteSavedMovie(movie) {
     api.deleteSavedMovie(movie._id)
-    .then(() => updateAllSavedMovies())
-     
-      .catch(err => console.log(err));
-      
-      
+    .then(() => updateAllSavedMovies())     
+    .catch(err => console.log(err));     
   }
 
+  
 
   function tokenCheck() {
     const token = localStorage.getItem('token');  
@@ -177,8 +169,6 @@ function deleteSavedMovie(movie) {
 
   function logOut() {
     localStorage.clear();    
-    localStorage.setItem('isLoggedIn', false);
-    localStorage.setItem('checkboxStatus', false);
     setCurrentUser({});
     history.push('/');
   }
@@ -189,9 +179,12 @@ function deleteSavedMovie(movie) {
     
 
   React.useEffect(() => {
-    tokenCheck();
-       
+    tokenCheck();       
   }, [isLoggedIn])
+
+  React.useEffect(() => {
+    updateAllSavedMovies();
+  }, [isLoggedIn]);
 
 
   function editProfile () {
@@ -218,8 +211,8 @@ function deleteSavedMovie(movie) {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike}/>
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} isLoggedIn={isLoggedIn} updateAllSavedMovies={updateAllSavedMovies} deleteSavedMovie={deleteSavedMovie} />
+          <ProtectedRoute path="/movies" component={Movies} foundMovies={foundMovies} savedMovies={savedMovies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} foundMovies={foundMovies} savedMovies={savedMovies} isLoggedIn={isLoggedIn} deleteSavedMovie={deleteSavedMovie} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />

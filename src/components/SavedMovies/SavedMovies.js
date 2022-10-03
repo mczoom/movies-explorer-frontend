@@ -5,7 +5,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({updateAllSavedMovies, deleteSavedMovie, allSavedMovies}) {
+function SavedMovies({deleteSavedMovie, foundMovies, allSavedMovies}) {
 
   // React.useEffect(() => {
   //   getAllSavedMovies();  
@@ -17,7 +17,7 @@ function SavedMovies({updateAllSavedMovies, deleteSavedMovie, allSavedMovies}) {
           <Header />
           <main>
             <SearchForm />
-            <MoviesCardList onDelete={deleteSavedMovie} />
+            <MoviesCardList onDelete={deleteSavedMovie} foundMovies={foundMovies} />
           </main>           
           <Footer />
         </div>

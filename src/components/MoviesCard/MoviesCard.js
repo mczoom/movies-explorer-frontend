@@ -5,35 +5,44 @@ import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 
 
-function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete}) {
+function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete, deleteSaved}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
 
     const [isLiked, setIsLiked] = React.useState(false)
 
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
     const currentUserSavedMovies = savedMovies.filter((movie) => (movie.owner === currentUser.userId));
 
     const isMovieSaved = currentUserSavedMovies.some(function(film) {
         return film.movieId === movie.id;
     });
-
    
     const likeButtonClassName = `card__like-button ${isMovieSaved ? 'card__like-button_liked' : ''}`;
 
     const durationHours = Math.floor(duration/60);
     const durationMinutes = duration % 60;
 
-    function like(e) {
-        e.preventDefault();
-        handleLike(movie);
-        setIsLiked(!isLiked);
+    
+    function like() {        
+        if(!isMovieSaved) {
+            handleLike(movie);
+            setIsLiked(!isLiked);
+            return;
+        } 
+        removeLike(movie.id);        
+    }
+    
+
+    function removeLike(id) {
+        const cardId = currentUserSavedMovies.find((movie) => movie.movieId === id)        
+        onDelete(cardId);
+        setIsLiked(false);
     }
 
-    function unLike(e) {
-        e.preventDefault();
+
+    function unLike() {        
         onDelete(movie);
         setIsLiked(false);
     }
