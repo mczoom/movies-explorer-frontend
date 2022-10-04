@@ -3,13 +3,12 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onChecked, isShortFilmChecked}) {
+function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMovies}) {
 
     const { 
         register,
         formState: {errors},
         handleSubmit,
-        reset,
         getValues,
        } = useForm({
            mode: "onChange"
@@ -19,16 +18,23 @@ function SearchForm({onSearch, onChecked, isShortFilmChecked}) {
        
     function handleSearchSubmit() {        
         localStorage.setItem('searchQuery', getValues('movie'))
-        const search = localStorage.getItem('searchQuery');
-        
-        onSearch(search);        
+        const search = localStorage.getItem('searchQuery');        
+        onSearch(search);
+    }
+
+    
+
+    function handleSearchSavedFilmsSubmit() {
+        localStorage.setItem('searchQuery', getValues('movie'))
+        const search = localStorage.getItem('searchQuery');        
+        onSearchSaved(search);   
     }
     
     
       
     return (
         <section className='search'>
-            <form className='search-form' onSubmit={handleSubmit(handleSearchSubmit)}>
+            <form className='search-form' onSubmit={savedMovies? handleSubmit(handleSearchSavedFilmsSubmit) : handleSubmit(handleSearchSubmit)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
                 {...register('movie', {                    
                     required: 'Введите название фильма в строку поиска', 

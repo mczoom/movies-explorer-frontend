@@ -11,8 +11,7 @@ function Register({handleRegistration, registrationResponse}) {
          register,
          formState: {errors},
          handleSubmit,
-         getValues,
-         reset,
+         getValues,         
         } = useForm({
             mode: "onChange"
         });

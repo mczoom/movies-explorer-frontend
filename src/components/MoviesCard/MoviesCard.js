@@ -12,7 +12,7 @@ function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete, 
 
     const [isLiked, setIsLiked] = React.useState(false)
 
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
     const currentUserSavedMovies = savedMovies.filter((movie) => (movie.owner === currentUser.userId));
 
     const isMovieSaved = currentUserSavedMovies.some(function(film) {
@@ -33,19 +33,17 @@ function MoviesCard({movie, cover, title, duration, link, handleLike, onDelete, 
         } 
         removeLike(movie.id);        
     }
-    
+
+    function unLike() {        
+        onDelete(movie);
+        setIsLiked(false);
+    }    
 
     function removeLike(id) {
         const cardId = currentUserSavedMovies.find((movie) => movie.movieId === id)        
         onDelete(cardId);
         setIsLiked(false);
-    }
-
-
-    function unLike() {        
-        onDelete(movie);
-        setIsLiked(false);
-    }
+    }    
      
       
     return (
