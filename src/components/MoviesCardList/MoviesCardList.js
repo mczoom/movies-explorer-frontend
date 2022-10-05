@@ -2,10 +2,11 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import Preloader from '../Preloader/Preloader';
 
 
 
-function MoviesCardList({handleLike, onDelete, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
+function MoviesCardList({isLoading, handleLike, onDelete, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
@@ -47,6 +48,7 @@ function MoviesCardList({handleLike, onDelete, foundSavedMovies, isSavedSearchUs
           
     return (
         <section className='movies-list'>
+            <Preloader isLoading={isLoading} />
             <ul className='movies-list__cards-container'>
                 {foundMovies !== null && location.pathname === '/movies' ?
                   foundMovies.slice(0, moviesToRender).map((movie) => (

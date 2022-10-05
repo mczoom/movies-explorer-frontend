@@ -5,11 +5,9 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed}) {
+function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateAllSavedMovies}) {
 
-  
-
-      
+        
     return (
         <div className='movies-page'>
           <Header />

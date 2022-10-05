@@ -16,7 +16,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
 
        
        
-    function handleSearchSubmit() {        
+    function handleMoviesSearch() {        
         localStorage.setItem('searchQuery', getValues('movie'))
         const search = localStorage.getItem('searchQuery');        
         onSearch(search);
@@ -24,7 +24,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
 
     
 
-    function handleSearchSavedFilmsSubmit() {
+    function handleSavedMoviesSearch() {
         localStorage.setItem('searchQuery', getValues('movie'))
         const search = localStorage.getItem('searchQuery');        
         onSearchSaved(search);   
@@ -34,7 +34,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
       
     return (
         <section className='search'>
-            <form className='search-form' onSubmit={savedMovies? handleSubmit(handleSearchSavedFilmsSubmit) : handleSubmit(handleSearchSubmit)}>
+            <form className='search-form' onSubmit={savedMovies? handleSubmit(handleSavedMoviesSearch) : handleSubmit(handleMoviesSearch)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
                 {...register('movie', {                    
                     required: 'Введите название фильма в строку поиска', 

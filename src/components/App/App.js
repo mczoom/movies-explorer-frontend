@@ -34,6 +34,7 @@ function App() {
   const [profileError, setProfileError] = React.useState('');
   const [RegisterError, setRegisterError] = React.useState('');
   const [foundSavedMovies, setFoundSavedMovies] = React.useState([]);
+  const [isLoading, setIsLoading] = React.useState(false);
   
   
   const history = useHistory();
@@ -102,40 +103,38 @@ function App() {
     }    
   }
 
-  async function searchSavedMovies(searchQuery) {
+  function searchSavedMovies(searchQuery) {
     updateAllSavedMovies();
     const savedMoviess = JSON.parse(localStorage.getItem('savedMovies'));
     const foundSavedMovies = savedMoviess.filter((movie) => (movie.owner === currentUser.userId));
-    console.log(foundSavedMovies);
     
     if(!isShortFilmChecked) {
-      const searchedFlicks = await foundSavedMovies.filter(flick => {        
+      const searchedFlicks = foundSavedMovies.filter(flick => {        
       return flick.nameRU.toLowerCase().includes(searchQuery);
-    });
-    console.log(searchedFlicks); 
+    }); 
     setFoundSavedMovies(searchedFlicks);
     setIsSavedSearchUsed(true);
     localStorage.setItem('foundSavedMovies', JSON.stringify(searchedFlicks));
     } else {
-      const searchedShortFlicks = await foundSavedMovies.filter((item) => {        
+      const searchedShortFlicks = foundSavedMovies.filter((item) => {        
       return  item.nameRU.toLowerCase().includes(searchQuery) && item.duration <= 40;
-      });
-      console.log(searchedShortFlicks);   
+      });   
       setFoundSavedMovies(searchedShortFlicks);
       setIsSavedSearchUsed(true);
       localStorage.setItem('foundSavedMovies', JSON.stringify(searchedShortFlicks));
     }        
   }
-console.log(foundSavedMovies);
 
   function firstSearch(searchQuery) {
+    setIsLoading(true);
     apiBF.getAllMovies()
         .then((data) => {
           localStorage.setItem('allMovies', JSON.stringify(data));          
           searchMovies(searchQuery);
           setIsSearchUsed(true);
         })       
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
+        .finally(() => setIsLoading(false));
   }
 
 
@@ -257,8 +256,7 @@ function deleteSavedMovie(movie) {
 
 
   function logOut() {
-    localStorage.clear();
-       
+    localStorage.clear();       
     setCurrentUser({});
     history.push('/');
   }
@@ -323,8 +321,8 @@ React.useEffect(() => {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} foundMovies={foundMovies} savedMovies={savedMovies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} foundMovies={foundMovies} savedMovies={savedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} />
+          <ProtectedRoute path="/movies" component={Movies} isLoading={isLoading} foundMovies={foundMovies} savedMovies={savedMovies} isLoggedIn={isLoggedIn} onSearch={handleMovieSearch} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} updateAllSavedMovies={updateAllSavedMovies} foundMovies={foundMovies} savedMovies={savedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />
