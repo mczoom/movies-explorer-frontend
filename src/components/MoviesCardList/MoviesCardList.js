@@ -6,7 +6,7 @@ import Preloader from '../Preloader/Preloader';
 
 
 
-function MoviesCardList({isLoading, handleLike, onDelete, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
+function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, savedMoviesPage, updateSavedMovies, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
@@ -16,6 +16,10 @@ function MoviesCardList({isLoading, handleLike, onDelete, foundSavedMovies, isSa
     
     const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+
+//       React.useEffect(() => {
+//     updateSavedMovies();
+// }, []);
 
         
 
@@ -50,18 +54,18 @@ function MoviesCardList({isLoading, handleLike, onDelete, foundSavedMovies, isSa
         <section className='movies-list'>
             <Preloader isLoading={isLoading} />
             <ul className='movies-list__cards-container'>
-                {foundMovies !== null && location.pathname === '/movies' ?
-                  foundMovies.slice(0, moviesToRender).map((movie) => (
-                    <li key={movie.id}><MoviesCard movie={movie} cover={`https://api.nomoreparties.co${movie.image.url}`} title={movie.nameRU} duration={movie.duration} link={movie.trailerLink} handleLike={handleLike} onDelete={onDelete} /></li>
+                {(foundMovies !== null && location.pathname === '/movies') || (likedMovies !== null && location.pathname === '/saved-movies') ?
+                  movies.slice(0, moviesToRender).map((movie) => (
+                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `https://api.nomoreparties.co${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage}/></li>
                 )) : '' }
-                {savedMovies !== null && location.pathname === '/saved-movies' && !isSavedSearchUsed ?
+                {/* {savedMovies !== null && location.pathname === '/saved-movies' && !isSavedSearchUsed ?
                 savedMovies.map((movie) => (
                     (movie.owner === currentUser.userId) && <li key={movie.movieId}><MoviesCard movie={movie} cover={movie.image} title={movie.nameRU} duration={movie.duration} link={movie.trailerLink} handleLike={handleLike} onDelete={onDelete} /></li>
                 )) : '' }
                 {foundSavedMovies !== null && location.pathname === '/saved-movies' ?
                 foundSavedMovies.map((movie) => (
                     (movie.owner === currentUser.userId) && <li key={movie.movieId}><MoviesCard movie={movie} cover={movie.image} title={movie.nameRU} duration={movie.duration} link={movie.trailerLink} handleLike={handleLike} onDelete={onDelete} /></li>
-                )) : '' }
+                )) : '' } */}
                 
             </ul>
         {foundMovies !==null && moviesToRender < foundMovies.length ? (

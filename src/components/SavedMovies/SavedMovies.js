@@ -5,15 +5,17 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateAllSavedMovies}) {
-
+function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies}) {
+  React.useEffect(() => {
+    updateSavedMovies();
+}, []);
         
     return (
         <div className='movies-page'>
           <Header />
           <main>
-            <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} savedMovies={true} />
-            <MoviesCardList onDelete={deleteSavedMovie} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} />
+            <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} savedMoviesPage={true} />
+            <MoviesCardList movies={movies} likedMovies={likedMovies} onDelete={deleteSavedMovie} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} updateSavedMovies={updateSavedMovies} savedMoviesPage={true}/>
           </main>           
           <Footer />
         </div>
