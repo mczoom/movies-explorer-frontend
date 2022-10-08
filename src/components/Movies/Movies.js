@@ -6,9 +6,9 @@ import Footer from '../Footer/Footer';
 
 
 function Movies({movies, searchMovies, updateMovies, isLoading, onSearch, onChecked, isShortFilmChecked, handleLike, deleteSavedMovie, foundMovies}) {
-  React.useEffect(() => {
-    updateMovies();
-}, []);  
+//   React.useEffect(() => {
+//     updateMovies();
+// }, []);  
        
     return (
         <div className='movies-page'>

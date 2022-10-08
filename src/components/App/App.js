@@ -21,10 +21,10 @@ function App() {
   const [token, setToken] = React.useState({}); 
   const [isLogged, setIsLogged] = React.useState({});
   const [movies, setMovies] = React.useState([]);
-  const [foundMovies, setFoundMovies] = React.useState([]);
+  const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [likedMovies, setLikedMovies] = React.useState([]);
-  const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState(''); 
-  const [isSearchUsed, setIsSearchUsed] = React.useState(false);
+  const [searchedLikedMovies, setSearchedLikedMovies] = React.useState([]);
+  const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
   const [isSavedSearchUsed, setIsSavedSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
@@ -45,69 +45,80 @@ function App() {
   console.log(likedMovies);
   
   
-  function firstSearch() {
+  function initialMovieSearch(searchQuery) {
     setIsLoading(true);
     apiBF.getAllMovies()
         .then((data) => {          
           localStorage.setItem('allMovies', JSON.stringify(data));          
           setMovies(data);
-          // searchMovies(searchQuery);
-          // setIsSearchUsed(true);
-        })       
+          const searchedMovies = data.filter(movie => {
+            return movie.nameRU.toLowerCase().includes(searchQuery);
+          })
+            localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+            setSearchedMovies(searchedMovies);
+          })              
+        .catch(err => console.log(err))
+        .finally(() => setIsLoading(false));
+  }
+
+
+  function initialShortMovieSearch(searchQuery) {
+    setIsLoading(true);
+    apiBF.getAllMovies()
+        .then((data) => {          
+          localStorage.setItem('allMovies', JSON.stringify(data));          
+          setMovies(data);
+          const searchedShortMovies = data.filter(movie => {
+            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
+          })
+            localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+            setSearchedMovies(searchedShortMovies);
+          })              
         .catch(err => console.log(err))
         .finally(() => setIsLoading(false));
   }
   
-  function searchMovies(searchQuery) {
-    const allMovies = JSON.parse(localStorage.getItem('allMovies'));    
-    if(allMovies.length < 1) {
-      firstSearch();
+  
+  function searchMovies(searchQuery) {        
+    if(!movies || movies.length < 1) {
       if(!isShortFilmChecked) {        
-        const searchedMovies = allMovies.filter(movie => {
-          return movie.nameRU.toLowerCase().includes(searchQuery);
-        })
-          localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-          setMovies(searchedMovies);
+        initialMovieSearch(searchQuery)
       } else {
-        const searchedShortMovies = allMovies.filter(movie => {
-          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
-        })
-        localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-        setMovies(searchedShortMovies);
+        initialShortMovieSearch(searchQuery)
       }
     } else {
       if(!isShortFilmChecked) {        
-        const searchedMovies = allMovies.filter(movie => {
+        const searchedMovies = movies.filter(movie => {
           return movie.nameRU.toLowerCase().includes(searchQuery);
         })
           localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-          setMovies(searchedMovies);
+          setSearchedMovies(searchedMovies);
       } else {
-        const searchedShortMovies = allMovies.filter(movie => {
+        const searchedShortMovies = movies.filter(movie => {
           return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
         })
         localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-        setMovies(searchedShortMovies);
+        setSearchedMovies(searchedShortMovies);
       }  
     }
   }  
     
-    
+    console.log(searchedMovies);
 
 
     function searchSavedMovies(searchQuery) {
-      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      // const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       if(!isShortFilmChecked) {
-        const searchedSavedMovies = savedMovies.filter((film) => {
+        const searchedSavedMovies = likedMovies.filter((film) => {
           return film.nameRU.toLowerCase().includes(searchQuery);
         });
-        setMovies(searchedSavedMovies);
+        // setMovies(searchedSavedMovies);
         setLikedMovies(searchedSavedMovies);
       } else {
-        const searchedSavedShortMovies = savedMovies.filter((film) => {        
+        const searchedSavedShortMovies = likedMovies.filter((film) => {        
           return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= 40;
         });
-        setMovies(searchedSavedShortMovies);
+        // setMovies(searchedSavedShortMovies);
         setLikedMovies(searchedSavedShortMovies);
       }
     }
@@ -115,7 +126,10 @@ function App() {
 
 
 
-
+    function handleCheckboxChange(searchQuery) {
+      setShortFilmChecked(!isShortFilmChecked);     
+      searchMovies(searchQuery);
+    } 
 
 
 
@@ -191,10 +205,7 @@ function App() {
   //   }
   // }
 
-  function handleCheckboxChange(searchQuery) {
-    setShortFilmChecked(!isShortFilmChecked);     
-    searchMovies(searchQuery);
-  }  
+   
   
 
     function setCurrentUserInfo() {
@@ -249,8 +260,8 @@ function App() {
 
 
   function updateMovies() {
-    const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
-    setMovies(foundMovies);    
+    
+    setSearchedMovies(searchedMovies);    
   }
 
 
@@ -259,7 +270,7 @@ function App() {
       .then((movies) => {
         localStorage.setItem('savedMovies', JSON.stringify(movies));
         setLikedMovies(movies);
-        setMovies(movies);
+        // setMovies(movies);
       })
       .catch(err => console.log(err));
   }
@@ -276,8 +287,7 @@ function App() {
 
 
   function handleLike (movie) {
-    api.saveMovie(movie)
-      
+    api.saveMovie(movie)      
       .catch(err => console.log(err));
       updateSavedMovies();
   }
@@ -372,8 +382,8 @@ React.useEffect(() => {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} movies={movies} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} foundMovies={foundMovies} isLoggedIn={isLoggedIn} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={movies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} />
+          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} onChecked={handleCheckboxChange} isShortFilmChecked={isShortFilmChecked} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />

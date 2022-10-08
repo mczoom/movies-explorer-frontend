@@ -69,7 +69,7 @@ function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onD
             <a href='ya.ru' className='link' target='_blank'>
                 <span className='card__title'>{film.title}</span>
             </a>
-            {location.pathname === '/saved-movie' ? 
+            {location.pathname === '/saved-movies' ? 
                 <button className='card__delete-like-button' type='button' onClick={unLike}></button> : 
                 <button className={likeButtonClassName} type='button' onClick={like}></button>
             }                       

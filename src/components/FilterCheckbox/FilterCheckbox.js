@@ -9,7 +9,7 @@ function FilterCheckbox({onChecked, isShortFilmChecked}) {
     // const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
 
     function handleCheckboxChange() {        
-    JSON.stringify(localStorage.setItem('checkboxStatus', isShortFilmChecked));
+    // JSON.stringify(localStorage.setItem('checkboxStatus', isShortFilmChecked));
     const search = localStorage.getItem('searchQuery');   
     onChecked(search);
     }
