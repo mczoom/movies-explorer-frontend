@@ -11,6 +11,7 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
 
+    const [renderedCards, setRenderedCards] = React.useState([]);
     const [moviesToRender, setMoviesToRender] = React.useState(0);
     const [moreMoviesToRender, setMoreMoviesToRender] = React.useState(0);    
     
@@ -46,18 +47,28 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
     
     const loadMoreMovies = () => {
         setMoviesToRender(moviesToRender + moreMoviesToRender);
-    }   
+    }
+
+
+    React.useEffect(() => {
+      if(location.pathname === '/movies' ) {
+        setRenderedCards(movies.slice(0, moviesToRender));
+      } else if(location.pathname === '/saved-movies') {
+        setRenderedCards(movies);
+      }
+    }, [movies, moviesToRender])
           
     return (
         <section className='movies-list'>
             <Preloader isLoading={isLoading} />
             <ul className='movies-list__cards-container'>
-                {(movies !== null && location.pathname === '/movies') || (likedMovies !== null && location.pathname === '/saved-movies') ?
-                  movies.slice(0, moviesToRender).map((movie) => (
+                { movies.length > 0 &&
+                  renderedCards.map((movie) => (
                     <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `https://api.nomoreparties.co${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage}/></li>
-                )) : '' }                
+                  ))
+                }
             </ul>
-        {foundMovies !==null && moviesToRender < foundMovies.length ? (
+        {location.pathname === '/movies' && foundMovies !==null && moviesToRender < foundMovies.length ? (
             <button className='pagination-button' type='button' onClick={loadMoreMovies}>Ещё</button>
         ) : ''}    
         </section>

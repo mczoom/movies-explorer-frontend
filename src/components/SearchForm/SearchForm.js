@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox}) {
+function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox}) {
 
     const { 
         register,
@@ -47,7 +47,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
                 <button className='search-form__find-button' type='submit'></button>                
             </form>
             <span className='search-form__error-message'>{errors.movie && <p>{errors.movie.message || "Ошибка"}</p>}</span>
-            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} />
+            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} />
             <div className='search__divider'></div>
         </section>
     );

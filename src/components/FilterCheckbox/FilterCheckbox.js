@@ -1,12 +1,17 @@
 import React from 'react';
 
 
-function FilterCheckbox({toggleCheckBox}) {   
+function FilterCheckbox({toggleCheckBox, toggleSavedMoviesCheckBox}) {   
         
     function handleCheckboxChange() {   
     const search = localStorage.getItem('searchQuery');
     toggleCheckBox(search);    
     }
+
+    function handleCheckboxChangeSaved() {   
+        const search = localStorage.getItem('searchQuery');
+        toggleSavedMoviesCheckBox(search);    
+        }
     
       
     return (        
