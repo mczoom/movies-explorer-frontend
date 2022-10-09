@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
-
+import {APIBF_BASE_URL} from '../utils/config';
 
 
 
@@ -18,9 +18,9 @@ function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onD
         duration: movie.duration || 0,
         year: movie.year || 'Нет',
         description: movie.description || 'Нет',
-        cover: savedMoviesPage ? movie.image : `https://api.nomoreparties.co${movie.image.url}`,
+        cover: savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`,
         link: savedMoviesPage ? movie.trailer : movie.trailerLink,
-        thumbnail: savedMoviesPage ? movie.thumbnail : `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
+        thumbnail: savedMoviesPage ? movie.thumbnail : `${APIBF_BASE_URL}${movie.image.formats.thumbnail.url}`,
         movieId: savedMoviesPage ? movie._id : movie.id,
         title: movie.nameRU || 'Нет',
         nameEN: movie.nameEN || 'Нет',

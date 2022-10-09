@@ -1,4 +1,12 @@
-export const BASE_URL = 'https://api.myflicks.nomoredomains.sbs';
+import {BASE_URL} from './config';
+
+
+const handleResponse = (res) => {
+  if (res.ok) {
+    return res.json();
+  }
+  return Promise.reject(`Ошибка: ${res.status}`);
+}
 
 
 export const register = (name, email, password) => {
@@ -9,16 +17,7 @@ export const register = (name, email, password) => {
       },
       body: JSON.stringify({name, email, password})
     })
-    .then((res) => {
-      try {
-        if (res.status === 201){
-          return res.json();
-        }
-      } catch(e){
-        return (e)
-      }
-    })
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
   }; 
 
 
@@ -30,16 +29,7 @@ export const register = (name, email, password) => {
       },
       body: JSON.stringify(email, password)
     })
-    .then((res) => {
-      try {
-        if (res.status === 200){
-          return res.json();
-        }
-      } catch(e){
-        return (e)
-      }
-    })
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
   };
 
 
@@ -51,8 +41,7 @@ export const register = (name, email, password) => {
         "Authorization": `Bearer ${localStorage.getItem('token')}`,
       }
     })
-    .then(res => res.json())    
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
   };
 
 
@@ -64,8 +53,7 @@ export const register = (name, email, password) => {
         "Authorization": `Bearer ${localStorage.getItem('token')}`,
       }      
     })
-    .then(res => res.json())    
-    .catch((err) => console.log(err));    
+    .then((res) => handleResponse(res));    
   };
   
   
@@ -78,8 +66,7 @@ export const register = (name, email, password) => {
         },
         body: JSON.stringify({email, name})
     })
-    .then(res => res.json())    
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
 }
 
 export const saveMovie = (movie) => {
@@ -102,8 +89,7 @@ export const saveMovie = (movie) => {
       thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
       movieId: movie.id})
   })
-  .then(res => res.json())    
-  .catch((err) => console.log(err));
+  .then((res) => handleResponse(res));
 };
 
 
@@ -114,8 +100,7 @@ export const getAllSavedMovies = () => {
         "Authorization": `Bearer ${localStorage.getItem('token')}`,
         }
     })
-    .then(res => res.json())    
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
   };
 
 
@@ -127,6 +112,5 @@ export const getAllSavedMovies = () => {
           "Authorization": `Bearer ${localStorage.getItem('token')}`,
         },        
     })
-    .then(res => res.json())    
-    .catch((err) => console.log(err));
+    .then((res) => handleResponse(res));
 }

@@ -11,6 +11,7 @@ import Login from '../Login/Login';
 import Page404 from '../Page404/Page404';
 import * as apiBF from '../utils/MoviesApi';
 import * as api from '../utils/MainApi';
+import {SHORT_MOVIE_DURATION} from '../utils/config';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
@@ -26,7 +27,7 @@ function App() {
   const [searchedLikedMovies, setSearchedLikedMovies] = React.useState([]);
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
   const [isSavedSearchUsed, setIsSavedSearchUsed] = React.useState(false);
-  const [isShortFilmChecked, setShortFilmChecked] = React.useState(false);
+  const [isShortFilmChecked, setIsShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
   const [isEditProfilePopupOpen, setEditProfilePopupState] = React.useState(false);
   const [serverError, setServerError] = React.useState('');
@@ -70,7 +71,7 @@ function App() {
           localStorage.setItem('allMovies', JSON.stringify(data));          
           setMovies(data);
           const searchedShortMovies = data.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
+            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
           })
             localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
             setSearchedMovies(searchedShortMovies);
@@ -97,7 +98,7 @@ function App() {
           setSearchedMovies(searchedMovies);
       } else {
         const searchedShortMovies = movies.filter(movie => {
-          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
+          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
         })
         localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
         setSearchedMovies(searchedShortMovies);
@@ -108,16 +109,16 @@ function App() {
   
 
     function searchSavedMovies(searchQuery) {
-      // const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       if(!isShortFilmChecked) {
-        const searchedSavedMovies = likedMovies.filter((film) => {
+        const searchedSavedMovies = savedMovies.filter((film) => {
           return film.nameRU.toLowerCase().includes(searchQuery);
         });
         // setMovies(searchedSavedMovies);
         setLikedMovies(searchedSavedMovies);
       } else {
-        const searchedSavedShortMovies = likedMovies.filter((film) => {        
-          return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= 40;
+        const searchedSavedShortMovies = savedMovies.filter((film) => {        
+          return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
         });
         // setMovies(searchedSavedShortMovies);
         setLikedMovies(searchedSavedShortMovies);
@@ -132,99 +133,41 @@ function App() {
           })
             localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
             setSearchedMovies(searchedMovies);
-            setShortFilmChecked(!isShortFilmChecked);
+            setIsShortFilmChecked(!isShortFilmChecked);
         } else {
           const searchedShortMovies = movies.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
+            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
           })
           localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
           setSearchedMovies(searchedShortMovies);
-          setShortFilmChecked(!isShortFilmChecked);
+          setIsShortFilmChecked(!isShortFilmChecked);
       }
     }  
 
 
-    function toggleSavedMoviesCheckBox(searchQuery) {      
+    function toggleSavedMoviesCheckBox(searchQuery) {
+      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
       if(isShortFilmChecked) {        
-        const searchedSavedMovies = likedMovies.filter((film) => {
+        const searchedSavedMovies = savedMovies.filter((film) => {
           return film.nameRU.toLowerCase().includes(searchQuery);
         });          
         setLikedMovies(searchedSavedMovies);
-          setShortFilmChecked(!isShortFilmChecked);
-      } else {
-        const searchedSavedShortMovies = likedMovies.filter((film) => {        
-          return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= 40;
+        console.log(likedMovies);
+          setIsShortFilmChecked(!isShortFilmChecked);
+      } else {        
+        const searchedSavedShortMovies = savedMovies.filter((film) => {        
+          return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
         });        
         setLikedMovies(searchedSavedShortMovies);
-        setShortFilmChecked(!isShortFilmChecked);
+        console.log(likedMovies);
+        setIsShortFilmChecked(!isShortFilmChecked);
     }
   } 
 
 
 
 
-
-  // function searchMovies(searchQuery) {
-  //   const allMovies = JSON.parse(localStorage.getItem('allMovies'));
-  //   if(!isShortFilmChecked) {
-  //     const searchedMovies = allMovies.filter(movie => {
-  //     return movie.nameRU.toLowerCase().includes(searchQuery);
-  //   })
-  //     localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-  //     setAllMovies(searchedMovies);
-  //   } else {
-  //     const searchedShortMovies = allMovies.filter(movie => {
-  //       return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= 40;
-  //     })
-  //     localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-  //     setAllMovies(searchedShortMovies);
-  //   }    
-  // }
-
-  // function searchSavedMovies(searchQuery) {
-  //   updateSavedMovies();
-  //   const savedMoviess = JSON.parse(localStorage.getItem('savedMovies'));
-  //   const foundSavedMovies = savedMoviess.filter((movie) => (movie.owner === currentUser.userId));
-    
-  //   if(!isShortFilmChecked) {
-  //     const searchedFlicks = foundSavedMovies.filter(flick => {        
-  //     return flick.nameRU.toLowerCase().includes(searchQuery);
-  //   }); 
-  //   setFoundSavedMovies(searchedFlicks);
-  //   setIsSavedSearchUsed(true);
-  //   localStorage.setItem('foundSavedMovies', JSON.stringify(searchedFlicks));
-  //   } else {
-  //     const searchedShortFlicks = foundSavedMovies.filter((item) => {        
-  //     return  item.nameRU.toLowerCase().includes(searchQuery) && item.duration <= 40;
-  //     });   
-  //     setFoundSavedMovies(searchedShortFlicks);
-  //     setIsSavedSearchUsed(true);
-  //     localStorage.setItem('foundSavedMovies', JSON.stringify(searchedShortFlicks));
-  //   }        
-  // }
-
-  // function firstSearch(searchQuery) {
-  //   setIsLoading(true);
-  //   apiBF.getAllMovies()
-  //       .then((data) => {
-  //         localStorage.setItem('allMovies', JSON.stringify(data));          
-  //         searchMovies(searchQuery);
-  //         setIsSearchUsed(true);
-  //       })       
-  //       .catch(err => console.log(err))
-  //       .finally(() => setIsLoading(false));
-  // }
-
-
-  // function handleMovieSearch(searchQuery) {
-  //   if(!isSearchUsed) {
-  //     firstSearch(searchQuery);
-  //   } else {
-  //     searchMovies(searchQuery);
-  //   }
-  // }
-
-   
+ 
   
 
     function setCurrentUserInfo() {

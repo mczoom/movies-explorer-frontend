@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Navigation from '../Navigation/Navigation';
 
@@ -27,9 +27,9 @@ function Header() {
       
     return (
         <header className={headerClassName}>
-            <a href='/' className='header__logo'>
+            <Link to='/' className='header__logo'>
             <img src={logo} alt='Логотип проекта'/>
-            </a>
+            </Link>
             <div className={burgerMenuClassName}>
                 <div className='burger-menu__container'>
                     <button className='burger-menu__close-button' type='button' onClick={closeBurgerMenu}></button>                    
@@ -38,18 +38,18 @@ function Header() {
             {isLoggedIn ?           
                 (<>                
                     <Navigation onBurgerMenu={isBurgerMenuOpen}/>
-                    <a href='/profile' className='link'>
+                    <Link to='/profile' className='link'>
                         <div className={accountClassName}>                
                             <span className='account__name'>Аккаунт</span>
                             <button className='account__icon' type='button'></button>                
                         </div>
-                    </a> 
+                    </Link> 
                     <button className='burger-menu-btn' onClick={openBurgerMenu} type='button'></button>
                 </>     
                 ) : 
                 (<div className='auth-buttons'>
-                    <a href='/signup' className='auth-buttons__signup-button link'>Регистрация</a>                
-                    <a href='/signin' className='auth-buttons__login-button link'>Войти</a>
+                    <Link to='/signup' className='auth-buttons__signup-button link'>Регистрация</Link>                
+                    <Link to='/signin' className='auth-buttons__login-button link'>Войти</Link>
                 </div>)
             }    
         </header>

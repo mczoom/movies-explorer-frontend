@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
+import {APIBF_BASE_URL} from '../utils/config';
 
 
 
@@ -16,9 +17,6 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
     const [moreMoviesToRender, setMoreMoviesToRender] = React.useState(0);    
     
     const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-
-    
 
         
 
@@ -49,7 +47,7 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
         setMoviesToRender(moviesToRender + moreMoviesToRender);
     }
 
-
+    console.log(likedMovies);
     React.useEffect(() => {
       if(location.pathname === '/movies' ) {
         setRenderedCards(movies.slice(0, moviesToRender));
@@ -64,7 +62,7 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (
-                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `https://api.nomoreparties.co${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage}/></li>
+                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage}/></li>
                   ))
                 }
             </ul>

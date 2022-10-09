@@ -16,7 +16,7 @@ function FilterCheckbox({toggleCheckBox, toggleSavedMoviesCheckBox}) {
       
     return (        
         <div className='checkbox'>
-            <input type="checkbox" className="checkbox__short-checkbox" id="short" name="short-film" onClick={handleCheckboxChange} />
+            <input type="checkbox" className="checkbox__short-checkbox" id="short" name="short-film" onClick={handleCheckboxChangeSaved} />
             <label htmlFor="short">Короткометражки</label>
         </div>        
         );
