@@ -25,11 +25,13 @@ function App() {
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [likedMovies, setLikedMovies] = React.useState([]);
   const [searchedLikedMovies, setSearchedLikedMovies] = React.useState([]);
+  const [searchQuerySavedMovies, setSearchQuerySavedMovies] = React.useState();
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
   const [isSavedSearchUsed, setIsSavedSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setIsShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
   const [isEditProfilePopupOpen, setEditProfilePopupState] = React.useState(false);
+  const [noFoundMoviesMessage, setNoFoundMoviesMessage] = React.useState(false);
   const [serverError, setServerError] = React.useState('');
   const [loginError, setLoginError] = React.useState('');
   const [profileError, setProfileError] = React.useState('');
@@ -45,10 +47,18 @@ function App() {
   
 
   const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
+
+  const searchResultMessage = (resultArr) => {
+    if(resultArr.length > 0) {
+      setNoFoundMoviesMessage(false);
+    } else {
+      setNoFoundMoviesMessage(true);
+    }
+  }
   
   
   function initialMovieSearch(searchQuery) {
-    setIsLoading(true);
+    setIsLoading(true);    
     apiBF.getAllMovies()
         .then((data) => {          
           localStorage.setItem('allMovies', JSON.stringify(data));          
@@ -56,9 +66,10 @@ function App() {
           const searchedMovies = data.filter(movie => {
             return movie.nameRU.toLowerCase().includes(searchQuery);
           })
-            localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-            setSearchedMovies(searchedMovies);
-          })              
+          searchResultMessage(searchedMovies);
+          localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+          setSearchedMovies(searchedMovies);
+        })              
         .catch(err => console.log(err))
         .finally(() => setIsLoading(false));
   }
@@ -73,9 +84,10 @@ function App() {
           const searchedShortMovies = data.filter(movie => {
             return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
           })
-            localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-            setSearchedMovies(searchedShortMovies);
-          })              
+          searchResultMessage(searchedShortMovies);
+          localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+          setSearchedMovies(searchedShortMovies);
+        })              
         .catch(err => console.log(err))
         .finally(() => setIsLoading(false));
   }
@@ -83,8 +95,7 @@ function App() {
   
   function searchMovies(searchQuery) {        
     if(!movies || movies.length < 1) {
-      if(!isShortFilmChecked) {
-        
+      if(!isShortFilmChecked) {        
         initialMovieSearch(searchQuery)
       } else {
         initialShortMovieSearch(searchQuery)
@@ -94,12 +105,14 @@ function App() {
         const searchedMovies = movies.filter(movie => {
           return movie.nameRU.toLowerCase().includes(searchQuery);
         })
-          localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-          setSearchedMovies(searchedMovies);
+        searchResultMessage(searchedMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+        setSearchedMovies(searchedMovies);
       } else {
         const searchedShortMovies = movies.filter(movie => {
           return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
         })
+        searchResultMessage(searchedShortMovies);
         localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
         setSearchedMovies(searchedShortMovies);
       }  
@@ -114,14 +127,16 @@ function App() {
         const searchedSavedMovies = savedMovies.filter((film) => {
           return film.nameRU.toLowerCase().includes(searchQuery);
         });
-        // setMovies(searchedSavedMovies);
+        searchResultMessage(searchedSavedMovies);
         setLikedMovies(searchedSavedMovies);
+        setSearchQuerySavedMovies(searchQuery);
       } else {
         const searchedSavedShortMovies = savedMovies.filter((film) => {        
           return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
         });
-        // setMovies(searchedSavedShortMovies);
+        searchResultMessage(searchedSavedShortMovies);
         setLikedMovies(searchedSavedShortMovies);
+        setSearchQuerySavedMovies(searchQuery);
       }
     }
 
@@ -132,6 +147,7 @@ function App() {
             return movie.nameRU.toLowerCase().includes(searchQuery);
           })
             localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+            searchResultMessage(searchedMovies);
             setSearchedMovies(searchedMovies);
             setIsShortFilmChecked(!isShortFilmChecked);
         } else {
@@ -139,6 +155,7 @@ function App() {
             return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
           })
           localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+          searchResultMessage(searchedShortMovies);
           setSearchedMovies(searchedShortMovies);
           setIsShortFilmChecked(!isShortFilmChecked);
       }
@@ -150,22 +167,24 @@ function App() {
       if(isShortFilmChecked) {        
         const searchedSavedMovies = savedMovies.filter((film) => {
           return film.nameRU.toLowerCase().includes(searchQuery);
-        });          
+        });
+        searchResultMessage(searchedSavedMovies);
         setLikedMovies(searchedSavedMovies);
-        console.log(likedMovies);
-          setIsShortFilmChecked(!isShortFilmChecked);
+        setIsShortFilmChecked(!isShortFilmChecked);
       } else {        
         const searchedSavedShortMovies = savedMovies.filter((film) => {        
           return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
-        });        
+        });
+        searchResultMessage(searchedSavedShortMovies);
         setLikedMovies(searchedSavedShortMovies);
-        console.log(likedMovies);
         setIsShortFilmChecked(!isShortFilmChecked);
     }
   } 
 
 
-
+  function clearAllErrors() {
+    setNoFoundMoviesMessage(false);
+  }
 
  
   
@@ -315,7 +334,8 @@ function deleteSavedMovie(movie) {
     }
 }
 React.useEffect(() => {
-    tokenCheck();    
+    tokenCheck();
+    clearAllErrors();
 }, []);
 
 React.useEffect(() => {
@@ -346,8 +366,8 @@ React.useEffect(() => {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} searchMovies={searchMovies} toggleCheckBox={toggleCheckBox} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie}/>
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isShortFilmChecked} />
+          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} searchMovies={searchMovies} toggleCheckBox={toggleCheckBox} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} />
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} searchQuerySavedMovies={searchQuerySavedMovies} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />

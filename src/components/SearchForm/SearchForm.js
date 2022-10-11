@@ -3,8 +3,9 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox}) {
+function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox, searchQuerySavedMovies}) {
 
+    
     const { 
         register,
         formState: {errors},
@@ -13,7 +14,6 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
        } = useForm({
            mode: "onChange"
        });
-
        
        
     function handleMoviesSearch() {        
@@ -22,12 +22,10 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
         onSearch(search);
     }
 
-    
-
     function handleSavedMoviesSearch() {
-        localStorage.setItem('searchQuery', getValues('movie'))
-        const search = localStorage.getItem('searchQuery');        
-        onSearchSaved(search);   
+        localStorage.setItem('searchQuerySavedMovies', getValues('movie'))
+        const search = localStorage.getItem('searchQuerySavedMovies');           
+         onSearchSaved(search);   
     }
     
     
@@ -37,7 +35,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
             <form className='search-form' onSubmit={savedMoviesPage? handleSubmit(handleSavedMoviesSearch) : handleSubmit(handleMoviesSearch)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
                 {...register('movie', {                    
-                    required: 'Введите название фильма в строку поиска', 
+                    required: 'Введите название фильма в строку поиска',
                     minLength: { 
                         value: 2,
                         message: 'Название фильма должно быть не менее 2-х симоволов'
