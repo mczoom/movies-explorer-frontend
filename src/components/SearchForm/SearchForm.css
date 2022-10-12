@@ -2,6 +2,7 @@
     margin: 0;
     padding: 60px 70px 10px;
     background: #FAFAFA;
+    position: relative;
 }
 
 .search-form {
@@ -46,12 +47,17 @@
     background-position: center;
     border: none;
     cursor: pointer;
-    border-radius: 48px;
-    
+    border-radius: 48px;    
 }
 
 .search-form__find-button:hover {
     transform: scale(1.1);
+}
+
+.search-form__find-button:disabled {
+    opacity: 0.6;
+    transform: none;
+    cursor: default;
 }
 
 .search__divider {
@@ -64,7 +70,7 @@
 .search-form__error-message {
     position: absolute;
     margin: 0;
-    top: 185px;
+    top: 105px;
     left: 90px;    
     max-width: 396px;    
     padding: 0;

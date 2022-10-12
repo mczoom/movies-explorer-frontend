@@ -8,7 +8,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
     
     const { 
         register,
-        formState: {errors},
+        formState: {errors, isValid},
         handleSubmit,
         getValues,
        } = useForm({
@@ -44,7 +44,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
                     },        
                     })}
                 ></input>
-                <button className='search-form__find-button' type='submit'></button>                
+                <button className='search-form__find-button' type='submit' disabled={!isValid}></button>
             </form>
             <span className='search-form__error-message'>{errors.movie && <p>{errors.movie.message || "Ошибка"}</p>}</span>
             <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>

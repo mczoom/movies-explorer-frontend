@@ -7,7 +7,7 @@ import {APIBF_BASE_URL} from '../utils/config';
 
 
 
-function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, updateSavedMovies, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
+function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, updateSavedMovies, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
@@ -60,6 +60,7 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
         <section className='movies-list'>
             <Preloader isLoading={isLoading} />
             <span className="search-form__not-found-message">{noFoundMoviesMessage ? 'Ничего не найдено' : ''}</span>
+            <span className="search-form__server-err-message">{serverError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : ''}</span>
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (

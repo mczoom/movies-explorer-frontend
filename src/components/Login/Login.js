@@ -4,14 +4,13 @@ import logo from '../../images/logo.svg';
 
 
 
-function Login({handleLogin}) {
+function Login({handleLogin, loginError}) {
 
     const { 
         register,
         formState: {errors, isValid},
         handleSubmit,
         getValues,
-        reset,
        } = useForm({
            mode: "onChange"
        });
@@ -67,7 +66,10 @@ function Login({handleLogin}) {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>        
                 </div>
-                <button className='form__submit-button' type='submit' disabled={!isValid}>Войти</button>               
+                <div className='form__submitButton-wrap'>
+                    <span className='form__reg-error-message'>{loginError}</span>
+                    <button className='form__submit-button' type='submit' disabled={!isValid}>Войти</button>
+                </div>               
             </form>
             </div>
             <div className='form-section__link-wrap'>

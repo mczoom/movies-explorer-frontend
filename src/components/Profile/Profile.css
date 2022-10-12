@@ -82,7 +82,7 @@
     font-size: 17px;
     font-weight: 500;
     line-height: 121%;
-    color: #9dda91;
+    color: #3456F3;
     justify-self: center;
 }
 
@@ -106,5 +106,16 @@
     background-color: #FFFFFF;
     border: none;
     cursor: pointer;
+}
+
+.profile__error-message {
+    position: absolute;
+    top: -80px;
+    left: 10px;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 121%;
+    color: #EE3465;
 }
 

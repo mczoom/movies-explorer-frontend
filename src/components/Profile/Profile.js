@@ -4,7 +4,7 @@ import Header from '../Header/Header';
 import EditProfilePopup from '../EditProfilePopup/EditProfilePopup';
 
 
-function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, updateUserInfoResponse}) {
+function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, updateUserInfoResponse, profileError}) {
      
     const currentUser = React.useContext(CurrentUserContext);
 
@@ -35,10 +35,12 @@ function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, u
                 </div>
                 <span className='profile__edit-message'>{updateUserInfoResponse}</span>
             </form>
+            <div className='form__submitButton-wrap'>
+                <span className='profile__error-message'>{profileError}</span>
+                <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>
+            </div>
+            <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>
                 
-                <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>           
-                <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>
-            
           </div>
           <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} currentUserEmail={currentUserEmail} onUpdate={onUpdate} />
         </div>

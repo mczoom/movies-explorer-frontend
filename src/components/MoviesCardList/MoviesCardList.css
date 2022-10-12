@@ -16,6 +16,16 @@
     color: #3456F3;
 }
 
+.search-form__server-err-message {
+    text-align: center;
+    max-width: 80%;
+    margin: 0 auto;    
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 121%;
+    color: #3456F3;
+}
+
 .movies-list__cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

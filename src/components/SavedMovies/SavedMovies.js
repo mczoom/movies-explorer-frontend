@@ -5,12 +5,12 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({deleteSavedMovie, setSavedShortFilmCheckbox, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies, toggleCheckBox, isShortFilmChecked, toggleSavedMoviesCheckBox, searchQuerySavedMovies, noFoundMoviesMessage, changeShortFilmStatus}) {
+function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies, toggleCheckBox, isShortFilmChecked, toggleSavedMoviesCheckBox, searchQuerySavedMovies, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError}) {
 
   React.useEffect(() => {
-    updateSavedMovies();
+    updateSavedMovies();    
     localStorage.setItem('searchQuerySavedMovies', '');
-    // setSavedShortFilmCheckbox(false);
+    clearAllErrors();
 }, []);
         
     return (
@@ -18,7 +18,7 @@ function SavedMovies({deleteSavedMovie, setSavedShortFilmCheckbox, foundMovies, 
           <Header />
           <main>
             <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} isShortFilmChecked={isShortFilmChecked} searchQuerySavedMovies={searchQuerySavedMovies} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={true} />
-            <MoviesCardList movies={movies} likedMovies={likedMovies} onDelete={deleteSavedMovie} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} updateSavedMovies={updateSavedMovies} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true}/>
+            <MoviesCardList movies={movies} likedMovies={likedMovies} onDelete={deleteSavedMovie} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} updateSavedMovies={updateSavedMovies} noFoundMoviesMessage={noFoundMoviesMessage} serverError={serverError} savedMoviesPage={true}/>
           </main>           
           <Footer />
         </div>

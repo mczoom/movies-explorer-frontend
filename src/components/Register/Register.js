@@ -26,9 +26,7 @@ function Register({handleRegistration, registrationResponse}) {
             handleRegistration(name, email, password);
         }
 
-        const [isSearchUse, setIsSearchUse] = React.useState('hhh');
         
-
         const nameInputClassName = `form__input input ${errors.userName ? 'input_invalid' : ''}`;
         const emailInputClassName = `form__input input ${errors.email ? 'input_invalid' : ''}`;
         const passwordInputClassName = `form__input input ${errors.password ? 'input_invalid' : ''}`;
