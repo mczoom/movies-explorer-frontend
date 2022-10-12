@@ -47,7 +47,6 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
         setMoviesToRender(moviesToRender + moreMoviesToRender);
     }
 
-    console.log(likedMovies);
     React.useEffect(() => {
       if(location.pathname === '/movies' ) {
         setRenderedCards(movies.slice(0, moviesToRender));
@@ -56,8 +55,7 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
       }
     }, [movies, moviesToRender])
 
-    console.log(noFoundMoviesMessage);
-          
+              
     return (
         <section className='movies-list'>
             <Preloader isLoading={isLoading} />

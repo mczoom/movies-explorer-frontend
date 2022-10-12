@@ -29,6 +29,7 @@ function App() {
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
   const [isSavedSearchUsed, setIsSavedSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setIsShortFilmChecked] = React.useState(false);
+  const [isSavedShortFilmChecked, setIsSavedShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
   const [isEditProfilePopupOpen, setEditProfilePopupState] = React.useState(false);
   const [noFoundMoviesMessage, setNoFoundMoviesMessage] = React.useState(false);
@@ -44,9 +45,17 @@ function App() {
   const location = useLocation();
 
   const isLoggedIn = localStorage.getItem('isLoggedIn');
-  
 
-  const checkboxStatus = JSON.parse(localStorage.getItem('checkboxStatus'));
+  function changeShortFilmStatus() {    
+      setIsShortFilmChecked(!isShortFilmChecked);
+      localStorage.setItem('checkboxStatus', JSON.stringify(!isShortFilmChecked));
+  }
+
+  function changeSavedShortFilmStatus() {    
+    setIsSavedShortFilmChecked(!isSavedShortFilmChecked);
+    localStorage.setItem('savedFilmsCheckboxStatus', JSON.stringify(!isSavedShortFilmChecked));
+}
+
 
   const searchResultMessage = (resultArr) => {
     if(resultArr.length > 0) {
@@ -68,6 +77,7 @@ function App() {
           })
           searchResultMessage(searchedMovies);
           localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+          // localStorage.setItem('checkboxStatus', JSON.stringify(false));
           setSearchedMovies(searchedMovies);
         })              
         .catch(err => console.log(err))
@@ -86,10 +96,31 @@ function App() {
           })
           searchResultMessage(searchedShortMovies);
           localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+          // localStorage.setItem('checkboxStatus', JSON.stringify(true));
           setSearchedMovies(searchedShortMovies);
         })              
         .catch(err => console.log(err))
         .finally(() => setIsLoading(false));
+  }
+
+  function searchMoviesAfterInitialSearch (searchQuery) {
+    if(!isShortFilmChecked) {        
+      const searchedMovies = movies.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(searchQuery);
+      })
+      searchResultMessage(searchedMovies);
+      localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+      // localStorage.setItem('checkboxStatus', JSON.stringify(false));
+      setSearchedMovies(searchedMovies);
+    } else {
+      const searchedShortMovies = movies.filter(movie => {
+        return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
+      })
+      searchResultMessage(searchedShortMovies);
+      localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+      // localStorage.setItem('checkboxStatus', JSON.stringify(true));
+      setSearchedMovies(searchedShortMovies);
+    }
   }
   
   
@@ -101,21 +132,7 @@ function App() {
         initialShortMovieSearch(searchQuery)
       }
     } else {
-      if(!isShortFilmChecked) {        
-        const searchedMovies = movies.filter(movie => {
-          return movie.nameRU.toLowerCase().includes(searchQuery);
-        })
-        searchResultMessage(searchedMovies);
-        localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-        setSearchedMovies(searchedMovies);
-      } else {
-        const searchedShortMovies = movies.filter(movie => {
-          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
-        })
-        searchResultMessage(searchedShortMovies);
-        localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-        setSearchedMovies(searchedShortMovies);
-      }  
+      searchMoviesAfterInitialSearch (searchQuery);  
     }
   }  
     
@@ -123,63 +140,73 @@ function App() {
 
     function searchSavedMovies(searchQuery) {
       const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-      if(!isShortFilmChecked) {
-        const searchedSavedMovies = savedMovies.filter((film) => {
-          return film.nameRU.toLowerCase().includes(searchQuery);
-        });
-        searchResultMessage(searchedSavedMovies);
-        setLikedMovies(searchedSavedMovies);
-        setSearchQuerySavedMovies(searchQuery);
-      } else {
-        const searchedSavedShortMovies = savedMovies.filter((film) => {        
-          return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
-        });
-        searchResultMessage(searchedSavedShortMovies);
-        setLikedMovies(searchedSavedShortMovies);
-        setSearchQuerySavedMovies(searchQuery);
-      }
-    }
-
-
-    function toggleCheckBox(searchQuery) {      
-        if(isShortFilmChecked) {        
-          const searchedMovies = movies.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(searchQuery);
-          })
-            localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-            searchResultMessage(searchedMovies);
-            setSearchedMovies(searchedMovies);
-            setIsShortFilmChecked(!isShortFilmChecked);
+      if(savedMovies !== null) {
+        if(!isSavedShortFilmChecked) {
+          const searchedSavedMovies = savedMovies.filter((film) => {
+            return film.nameRU.toLowerCase().includes(searchQuery);
+          });
+          searchResultMessage(searchedSavedMovies);
+          setLikedMovies(searchedSavedMovies);
+          setSearchQuerySavedMovies(searchQuery);        
         } else {
-          const searchedShortMovies = movies.filter(movie => {
-            return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
-          })
-          localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-          searchResultMessage(searchedShortMovies);
-          setSearchedMovies(searchedShortMovies);
-          setIsShortFilmChecked(!isShortFilmChecked);
-      }
-    }  
-
-
-    function toggleSavedMoviesCheckBox(searchQuery) {
-      const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-      if(isShortFilmChecked) {        
-        const searchedSavedMovies = savedMovies.filter((film) => {
-          return film.nameRU.toLowerCase().includes(searchQuery);
-        });
-        searchResultMessage(searchedSavedMovies);
-        setLikedMovies(searchedSavedMovies);
-        setIsShortFilmChecked(!isShortFilmChecked);
-      } else {        
-        const searchedSavedShortMovies = savedMovies.filter((film) => {        
+          const searchedSavedShortMovies = savedMovies.filter((film) => {        
           return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
         });
-        searchResultMessage(searchedSavedShortMovies);
-        setLikedMovies(searchedSavedShortMovies);
-        setIsShortFilmChecked(!isShortFilmChecked);
+          searchResultMessage(searchedSavedShortMovies);
+          setLikedMovies(searchedSavedShortMovies);
+          setSearchQuerySavedMovies(searchQuery);
+        }
+      }
     }
-  } 
+    
+
+    React.useEffect(() => {
+      const searchQuery = localStorage.getItem('searchQuery');
+      const searchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');
+      searchMoviesAfterInitialSearch (searchQuery);
+      searchSavedMovies(searchQuerySavedMovies);      
+    }, [isShortFilmChecked, isSavedShortFilmChecked]);
+
+
+  //   function toggleCheckBox(searchQuery) {      
+  //       if(isShortFilmChecked) {        
+  //         const searchedMovies = movies.filter(movie => {
+  //           return movie.nameRU.toLowerCase().includes(searchQuery);
+  //         })
+  //           localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+  //           searchResultMessage(searchedMovies);
+  //           setSearchedMovies(searchedMovies);
+  //           setIsShortFilmChecked(!isShortFilmChecked);
+  //       } else {
+  //         const searchedShortMovies = movies.filter(movie => {
+  //           return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
+  //         })
+  //         localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+  //         searchResultMessage(searchedShortMovies);
+  //         setSearchedMovies(searchedShortMovies);
+  //         setIsShortFilmChecked(!isShortFilmChecked);
+  //     }
+  //   }  
+
+
+  //   function toggleSavedMoviesCheckBox(searchQuery) {
+  //     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+  //     if(isShortFilmChecked) {        
+  //       const searchedSavedMovies = savedMovies.filter((film) => {
+  //         return film.nameRU.toLowerCase().includes(searchQuery);
+  //       });
+  //       searchResultMessage(searchedSavedMovies);
+  //       setLikedMovies(searchedSavedMovies);
+  //       setIsShortFilmChecked(!isShortFilmChecked);
+  //     } else {        
+  //       const searchedSavedShortMovies = savedMovies.filter((film) => {        
+  //         return  film.nameRU.toLowerCase().includes(searchQuery) && film.duration <= SHORT_MOVIE_DURATION;
+  //       });
+  //       searchResultMessage(searchedSavedShortMovies);
+  //       setLikedMovies(searchedSavedShortMovies);
+  //       setIsShortFilmChecked(!isShortFilmChecked);
+  //   }
+  // } 
 
 
   function clearAllErrors() {
@@ -224,7 +251,7 @@ function App() {
         setIsLogged(true);
         localStorage.setItem('isLoggedIn', true);
         setCurrentUserInfo();
-        updateSavedMovies();     
+        updateSavedMovies();
         history.push('/movies');      
       }; 
     })
@@ -338,9 +365,24 @@ React.useEffect(() => {
     clearAllErrors();
 }, []);
 
+function checkBox() {
+  if(location.pathname === '/movies') {
+
+  }
+}
+
 React.useEffect(() => {
-  localStorage.setItem('checkboxStatus', JSON.stringify(isShortFilmChecked));    
-}, [isShortFilmChecked]);
+  tokenCheck();
+  clearAllErrors();
+}, []);
+
+
+
+
+
+// React.useEffect(() => {
+//   localStorage.setItem('checkboxStatus', JSON.stringify(false));    
+// }, []);
 
 
   function editProfile () {
@@ -366,8 +408,8 @@ React.useEffect(() => {
           <Route path="/signin">
             <Login handleLogin={handleLogin}/>
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} searchMovies={searchMovies} toggleCheckBox={toggleCheckBox} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} />
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} searchQuerySavedMovies={searchQuerySavedMovies} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true} />
+          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} changeShortFilmStatus={changeShortFilmStatus} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} />
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} changeShortFilmStatus={changeSavedShortFilmStatus} searchQuerySavedMovies={searchQuerySavedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isSavedShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />

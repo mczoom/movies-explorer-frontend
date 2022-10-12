@@ -2,25 +2,25 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 
 
-function FilterCheckbox({toggleCheckBox, toggleSavedMoviesCheckBox, savedMoviesPage}) {
+function FilterCheckbox({toggleCheckBox, toggleSavedMoviesCheckBox, isShortFilmChecked, changeShortFilmStatus}) {
 
     const location = useLocation();
         
-    function handleCheckboxChange() {   
-      const search = localStorage.getItem('searchQuery');
-      toggleCheckBox(search);    
+    
+
+   
+
+    function handleCheckboxChange() {
+        changeShortFilmStatus();
     }
 
-    function handleCheckboxChangeSaved() {   
-      const search = localStorage.getItem('searchQuerySavedMovies');
-      toggleSavedMoviesCheckBox(search);    
-    }
+    const checkboxClassName = `checkbox__short-checkbox ${isShortFilmChecked ? 'checkbox__short-checkbox_checked' : ''}`;
     
       
     return (        
         <div className='checkbox'>
-            <input type="checkbox" className="checkbox__short-checkbox" id="short" name="short-film" onClick={location.pathname === '/saved-movies' ? handleCheckboxChangeSaved : handleCheckboxChange} />
-            <label htmlFor="short">Короткометражки</label>
+            <button type="button" className={checkboxClassName} id="short" name="short-film" onClick={handleCheckboxChange} />
+            <label htmlFor="short" className='label'>Короткометражки</label>
         </div>        
         );
 }
