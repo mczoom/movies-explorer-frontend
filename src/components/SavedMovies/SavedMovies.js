@@ -5,12 +5,12 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies, toggleCheckBox, isShortFilmChecked, toggleSavedMoviesCheckBox, searchQuerySavedMovies, noFoundMoviesMessage, changeShortFilmStatus}) {
+function SavedMovies({deleteSavedMovie, setSavedShortFilmCheckbox, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies, toggleCheckBox, isShortFilmChecked, toggleSavedMoviesCheckBox, searchQuerySavedMovies, noFoundMoviesMessage, changeShortFilmStatus}) {
 
   React.useEffect(() => {
     updateSavedMovies();
     localStorage.setItem('searchQuerySavedMovies', '');
-    // changeShortFilmStatus(false);
+    // setSavedShortFilmCheckbox(false);
 }, []);
         
     return (

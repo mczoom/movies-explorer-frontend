@@ -53,8 +53,11 @@ function App() {
 
   function changeSavedShortFilmStatus() {    
     setIsSavedShortFilmChecked(!isSavedShortFilmChecked);
-    localStorage.setItem('savedFilmsCheckboxStatus', JSON.stringify(!isSavedShortFilmChecked));
 }
+
+  function setSavedShortFilmCheckbox(status) {
+    setIsSavedShortFilmChecked(status);
+  }
 
 
   const searchResultMessage = (resultArr) => {
@@ -77,7 +80,6 @@ function App() {
           })
           searchResultMessage(searchedMovies);
           localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-          // localStorage.setItem('checkboxStatus', JSON.stringify(false));
           setSearchedMovies(searchedMovies);
         })              
         .catch(err => console.log(err))
@@ -96,7 +98,6 @@ function App() {
           })
           searchResultMessage(searchedShortMovies);
           localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-          // localStorage.setItem('checkboxStatus', JSON.stringify(true));
           setSearchedMovies(searchedShortMovies);
         })              
         .catch(err => console.log(err))
@@ -110,7 +111,6 @@ function App() {
       })
       searchResultMessage(searchedMovies);
       localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-      // localStorage.setItem('checkboxStatus', JSON.stringify(false));
       setSearchedMovies(searchedMovies);
     } else {
       const searchedShortMovies = movies.filter(movie => {
@@ -118,7 +118,6 @@ function App() {
       })
       searchResultMessage(searchedShortMovies);
       localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-      // localStorage.setItem('checkboxStatus', JSON.stringify(true));
       setSearchedMovies(searchedShortMovies);
     }
   }
@@ -252,6 +251,7 @@ function App() {
         localStorage.setItem('isLoggedIn', true);
         setCurrentUserInfo();
         updateSavedMovies();
+        setIsSavedShortFilmChecked(false);
         history.push('/movies');      
       }; 
     })
@@ -365,24 +365,11 @@ React.useEffect(() => {
     clearAllErrors();
 }, []);
 
-function checkBox() {
-  if(location.pathname === '/movies') {
-
-  }
-}
-
 React.useEffect(() => {
-  tokenCheck();
-  clearAllErrors();
-}, []);
+  setIsSavedShortFilmChecked(false);  
+}, [location.pathname]);
 
 
-
-
-
-// React.useEffect(() => {
-//   localStorage.setItem('checkboxStatus', JSON.stringify(false));    
-// }, []);
 
 
   function editProfile () {
@@ -409,7 +396,7 @@ React.useEffect(() => {
             <Login handleLogin={handleLogin}/>
           </Route>
           <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} changeShortFilmStatus={changeShortFilmStatus} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} />
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} changeShortFilmStatus={changeSavedShortFilmStatus} searchQuerySavedMovies={searchQuerySavedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isSavedShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true} />
+          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} setSavedShortFilmCheckbox={setSavedShortFilmCheckbox} changeShortFilmStatus={changeSavedShortFilmStatus} searchQuerySavedMovies={searchQuerySavedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isSavedShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} savedMoviesPage={true} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} />
           <Route path="/*">
             <Page404 />
