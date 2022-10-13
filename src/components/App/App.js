@@ -198,7 +198,7 @@ function App() {
     })
     .catch((err) => {
       setLoginError('Ошибка авторизации');
-      console.log(err);
+      console.log('Ошибка авторизации');
     });
     if(isLoggedIn) {
       api.getContent()
