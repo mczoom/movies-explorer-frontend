@@ -5,24 +5,26 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function Movies({movies, searchMovies, toggleCheckBox, updateMovies, isLoading, onSearch, onChecked, isShortFilmChecked, handleLike, deleteSavedMovie, foundMovies, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError}) {
- 
-
-// const checkboxStatus = localStorage.setItem('checkboxStatus', JSON.stringify(isShortFilmChecked));
-// const checkboxStatus = localStorage.getItem('checkboxStatus');
+function Movies({movies, searchMovies, toggleCheckBox, isLoading, isShortFilmChecked, handleLike, deleteSavedMovie, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError, likeError}) {
 
 React.useEffect(() => {
   clearAllErrors();   
 }, []);
 
-
-       console.log(isShortFilmChecked);
+       
     return (
         <div className='movies-page'>
           <Header />
           <main>
             <SearchForm onSearch={searchMovies} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>
-            <MoviesCardList movies={movies} isLoading={isLoading} handleLike={handleLike} deleteSaved={deleteSavedMovie} foundMovies={foundMovies} onDelete={deleteSavedMovie} isShortFilmChecked={isShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} serverError={serverError} />
+            <MoviesCardList movies={movies}
+                            isLoading={isLoading}
+                            handleLike={handleLike}
+                            onDelete={deleteSavedMovie}
+                            noFoundMoviesMessage={noFoundMoviesMessage}
+                            serverError={serverError}
+                            likeError={likeError}
+             />
           </main>
           <Footer />
         </div>

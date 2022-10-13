@@ -32,10 +32,11 @@ function App() {
   const [isSavedShortFilmChecked, setIsSavedShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
   const [isEditProfilePopupOpen, setEditProfilePopupState] = React.useState(false);
-  const [noFoundMoviesMessage, setNoFoundMoviesMessage] = React.useState(false);
+  const [noFoundMoviesMessage, setNoFoundMoviesMessage] = React.useState('');
   const [serverError, setServerError] = React.useState('');
   const [loginError, setLoginError] = React.useState('');
   const [profileError, setProfileError] = React.useState('');
+  const [likeError, setLikeError] = React.useState('');
   const [foundSavedMovies, setFoundSavedMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
   
@@ -56,9 +57,9 @@ function App() {
 
   const searchResultMessage = (resultArr) => {
     if(resultArr.length > 0) {
-      setNoFoundMoviesMessage(false);
+      setNoFoundMoviesMessage('');
     } else {
-      setNoFoundMoviesMessage(true);
+      setNoFoundMoviesMessage('Ничего не найдено');
     }
   }  
   
@@ -68,7 +69,7 @@ function App() {
     if(!isShortFilmChecked) {      
       apiBF.getAllMovies()
         .then((data) => {          
-          localStorage.setItem('allMovies', JSON.stringify(data));          
+          localStorage.setItem('allMovies', JSON.stringify(data));
           setMovies(data);
           const searchedMovies = data.filter(movie => {
             return movie.nameRU.toLowerCase().includes(searchQuery);
@@ -151,14 +152,15 @@ function App() {
     const searchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');
     searchMoviesAfterInitialSearch (searchQuery);
     searchSavedMovies(searchQuerySavedMovies);
-    setNoFoundMoviesMessage(false);
   }, [isShortFilmChecked, isSavedShortFilmChecked]);
 
 
   function clearAllErrors() {
-    setNoFoundMoviesMessage(false);
+    setNoFoundMoviesMessage('');
     setupdateUserInfoResponse('');
-  }   
+    setServerError('')
+    setLikeError('');
+  }
 
   function setCurrentUserInfo() {
     api.getCurrentUser()
@@ -235,14 +237,14 @@ function App() {
 
   function handleLike (movie) {
     api.saveMovie(movie)      
-      .catch((err) => console.log('Произошла ошибка, фильм не сохранён', err));
+      .catch((err) => setLikeError('Произошла ошибка, фильм не сохранён'));
     updateSavedMovies();
   }
   
   function deleteSavedMovie(movie) {
     api.deleteSavedMovie(movie._id)
     .then(() => updateSavedMovies())     
-    .catch((err) => console.log('Ошибка при удалении фильма', err));     
+    .catch((err) => console.log('Ошибка при удалении фильма'));     
   }
 
 
@@ -313,7 +315,7 @@ function App() {
           <Route path="/signin">
             <Login handleLogin={handleLogin} loginError={loginError} />
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} changeShortFilmStatus={changeShortFilmStatus} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} clearAllErrors={clearAllErrors} serverError={serverError} />
+          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} changeShortFilmStatus={changeShortFilmStatus} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} clearAllErrors={clearAllErrors} serverError={serverError} likeError={likeError} />
           <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} changeShortFilmStatus={changeSavedShortFilmStatus} searchQuerySavedMovies={searchQuerySavedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isSavedShortFilmChecked} noFoundMoviesMessage={noFoundMoviesMessage} clearAllErrors={clearAllErrors} serverError={serverError} savedMoviesPage={true} />
           <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} profileError={profileError} />
           <Route path="/*">

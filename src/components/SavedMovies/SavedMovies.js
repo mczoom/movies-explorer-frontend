@@ -5,7 +5,20 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, foundSavedMovies, isSavedSearchUsed, updateSavedMovies, movies, likedMovies, toggleCheckBox, isShortFilmChecked, toggleSavedMoviesCheckBox, searchQuerySavedMovies, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError}) {
+function SavedMovies({
+    deleteSavedMovie,     
+    onChecked,
+    onSearchSaved,   
+    updateSavedMovies,
+    movies,  
+    isShortFilmChecked,
+    toggleSavedMoviesCheckBox,    
+    noFoundMoviesMessage,
+    changeShortFilmStatus, 
+    clearAllErrors, 
+    serverError
+}) 
+{
 
   React.useEffect(() => {
     updateSavedMovies();    
@@ -17,8 +30,8 @@ function SavedMovies({deleteSavedMovie, foundMovies, onChecked, onSearchSaved, f
         <div className='movies-page'>
           <Header />
           <main>
-            <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} isShortFilmChecked={isShortFilmChecked} searchQuerySavedMovies={searchQuerySavedMovies} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={true} />
-            <MoviesCardList movies={movies} likedMovies={likedMovies} onDelete={deleteSavedMovie} foundMovies={foundMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} updateSavedMovies={updateSavedMovies} noFoundMoviesMessage={noFoundMoviesMessage} serverError={serverError} savedMoviesPage={true}/>
+            <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} isShortFilmChecked={isShortFilmChecked} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={true} />
+            <MoviesCardList movies={movies} onDelete={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} serverError={serverError} savedMoviesPage={true}/>
           </main>           
           <Footer />
         </div>

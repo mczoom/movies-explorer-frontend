@@ -5,24 +5,27 @@
     padding: 50px 70px 80px;    
     background: #FAFAFA;
     display: flex;
+    flex-direction: column;    
+}
+
+.movies-list__error-messages {
+    display: flex;
     flex-direction: column;
+    align-items: center;
+    margin: 0 auto;
+    max-width: 80%;
+    min-height: 40px;
+    text-align: center;
+}
+
+.errMessage {    
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 121%;
+    color: #f11010;
 }
 
 .search-form__not-found-message {    
-    margin: 0 auto;    
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 121%;
-    color: #3456F3;
-}
-
-.search-form__server-err-message {
-    text-align: center;
-    max-width: 80%;
-    margin: 0 auto;    
-    font-size: 22px;
-    font-weight: 500;
-    line-height: 121%;
     color: #3456F3;
 }
 
@@ -56,11 +59,22 @@
 }
 
 
+@media screen and (max-width: 1024px) {
+.errMessage {
+    left: 330px;
+}
+}
+
 @media screen and (max-width: 768px) {
     .movies-list {            
         margin-top: 0;
         padding-left: 30px;
         padding-right: 30px;        
+    }
+
+    .errMessage {    
+        font-size: 18px;
+        font-weight: 400;        
     }
 
     .movies-list__cards-container {        
@@ -72,14 +86,12 @@
 
 @media screen and (max-width: 320px) {
 
-    .movies-list {       
-        padding-bottom: 80px;               
+    .movies-list {   
+        padding: 40px 10px 80px;               
     }
 
-    .movies-list {   
-        padding-top: 40px;        
-        padding-left: 10px;
-        padding-right: 10px;        
+    .errMessage {    
+        font-size: 12px;                
     }
 
     .movies-list__cards-container {        

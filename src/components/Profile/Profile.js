@@ -15,7 +15,7 @@ function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, u
     React.useEffect(() => {
         setCurrentUserName(currentUser.name);
         setCurrentUserEmail(currentUser.email);
-      }, []);       
+      }, []);
 
           
     return (
@@ -39,8 +39,7 @@ function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, u
                 <span className='profile__error-message'>{profileError}</span>
                 <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>
             </div>
-            <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>
-                
+            <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>                
           </div>
           <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} currentUserEmail={currentUserEmail} onUpdate={onUpdate} />
         </div>

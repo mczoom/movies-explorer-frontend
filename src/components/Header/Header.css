@@ -6,8 +6,7 @@
     height: 74px;
     margin: 0 auto;
     padding: 0 70px;
-    background-color: #FAFAFA;
-    
+    background-color: #FAFAFA;    
   }
 
   .header__promo {
@@ -158,8 +157,7 @@
       width: 520px;
       height: 100vh;
       background: #FAFAFA;
-      overflow: auto;
-        
+      overflow: auto;        
     }
   
     .burger-menu__close-button {
@@ -179,10 +177,6 @@
   @media screen and (max-width: 320px) {
     .header {
       padding: 0 14px;
-    }
-
-    
-  
+    }  
   }
-
    

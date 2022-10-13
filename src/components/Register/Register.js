@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form';
 import logo from '../../images/logo.svg';
 
 
-
-
 function Register({handleRegistration, registrationResponse}) {
 
     const { 
@@ -21,15 +19,13 @@ function Register({handleRegistration, registrationResponse}) {
         const email = getValues('email');
         const password = getValues('password');
 
-        
-        function onSubmit() {            
-            handleRegistration(name, email, password);
-        }
-
-        
         const nameInputClassName = `form__input input ${errors.userName ? 'input_invalid' : ''}`;
         const emailInputClassName = `form__input input ${errors.email ? 'input_invalid' : ''}`;
         const passwordInputClassName = `form__input input ${errors.password ? 'input_invalid' : ''}`;
+        
+        function onSubmit() {            
+            handleRegistration(name, email, password);
+        }       
      
       
     return (
@@ -60,7 +56,7 @@ function Register({handleRegistration, registrationResponse}) {
                         {...register("email", {
                         required: "Необходимо заполнить", 
                         pattern: { 
-                            value: /^[_a-z0-9-\+-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i,
+                            value: /^[_a-z0-9-+-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i,
                             message: "Введите адрес электронной почты"
                         }           
                         })} 

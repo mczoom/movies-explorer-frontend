@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox, changeShortFilmStatus, searchQuerySavedMovies}) {
+function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox, changeShortFilmStatus}) {
 
     
     const { 
@@ -27,10 +27,6 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
         const search = localStorage.getItem('searchQuerySavedMovies');           
          onSearchSaved(search);   
     }
-    
-    // React.useEffect(() => {
-    //     handleMoviesSearch()
-    //   }, [isShortFilmChecked]);
       
     return (
         <section className='search'>
@@ -46,7 +42,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
                 ></input>
                 <button className='search-form__find-button' type='submit' disabled={!isValid}></button>
             </form>
-            <span className='search-form__error-message'>{errors.movie && <p>{errors.movie.message || "Ошибка"}</p>}</span>
+            {errors.movie && <span className='search-form__error-message'>{errors.movie.message || "Ошибка"}</span>}
             <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>
             <div className='search__divider'></div>
         </section>

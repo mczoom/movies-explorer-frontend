@@ -5,7 +5,7 @@ import {APIBF_BASE_URL} from '../utils/config';
 
 
 
-function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onDelete, deleteSaved}) {
+function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
@@ -37,9 +37,8 @@ function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onD
 
     const durationHours = Math.floor(film.duration/60);
     const durationMinutes = film.duration % 60;
-
     
-    function like() {        
+    function likeMovie() {        
         if(!isMovieSaved) {
             handleLike(movie);
             setIsLiked(!isLiked);
@@ -48,7 +47,7 @@ function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onD
         removeLike(movie.id);        
     }
 
-    function unLike() {        
+    function unLikeMovie() {        
         onDelete(movie);
         setIsLiked(false);
     }    
@@ -70,8 +69,8 @@ function MoviesCard({movie, cover, title, savedMoviesPage, link, handleLike, onD
                 <span className='card__title'>{film.title}</span>
             </a>
             {location.pathname === '/saved-movies' ? 
-                <button className='card__delete-like-button' type='button' onClick={unLike}></button> : 
-                <button className={likeButtonClassName} type='button' onClick={like}></button>
+                <button className='card__delete-like-button' type='button' onClick={unLikeMovie}></button> : 
+                <button className={likeButtonClassName} type='button' onClick={likeMovie}></button>
             }                       
             </div>
                 {film.duration > 60 && (film.duration % 60) !== 0 ? 

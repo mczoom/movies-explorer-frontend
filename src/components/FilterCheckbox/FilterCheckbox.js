@@ -1,15 +1,8 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 
 
-function FilterCheckbox({toggleCheckBox, toggleSavedMoviesCheckBox, isShortFilmChecked, changeShortFilmStatus}) {
-
-    const location = useLocation();
-        
+function FilterCheckbox({isShortFilmChecked, changeShortFilmStatus}) {
     
-
-   
-
     function handleCheckboxChange() {
         changeShortFilmStatus();
     }

@@ -1,15 +1,13 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 import {APIBF_BASE_URL} from '../utils/config';
 
 
 
-function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, updateSavedMovies, foundSavedMovies, isSavedSearchUsed, deleteSaved, isShortFilmChecked, getAllSavedMovies}) {
-
-    const currentUser = React.useContext(CurrentUserContext);
+function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, likeError}) {
+    
     const location = useLocation();
 
     const [renderedCards, setRenderedCards] = React.useState([]);
@@ -17,7 +15,6 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
     const [moreMoviesToRender, setMoreMoviesToRender] = React.useState(0);    
     
     const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
-
         
 
     React.useEffect(() => {
@@ -35,13 +32,11 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
           }
         };
     
-        renderOptions();
-    
+        renderOptions();    
         window.addEventListener("resize", renderOptions);
-
         return () => window.removeEventListener("resize", renderOptions);
       }, []);
-        
+
     
     const loadMoreMovies = () => {
         setMoviesToRender(moviesToRender + moreMoviesToRender);
@@ -58,9 +53,12 @@ function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, s
               
     return (
         <section className='movies-list'>
-            <Preloader isLoading={isLoading} />
-            <span className="search-form__not-found-message">{noFoundMoviesMessage ? 'Ничего не найдено' : ''}</span>
-            <span className="search-form__server-err-message">{serverError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : ''}</span>
+            <div className='movies-list__error-messages'>
+              <span className="errMessage search-form__likeErr-message">{likeError}</span>
+              <span className="errMessage search-form__not-found-message">{noFoundMoviesMessage}</span>
+              <span className="errMessage search-form__serverErr-message">{serverError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : ''}</span>
+            </div>
+            <Preloader isLoading={isLoading} />            
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (

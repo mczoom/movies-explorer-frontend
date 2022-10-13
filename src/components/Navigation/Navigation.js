@@ -6,8 +6,7 @@ import { NavLink } from 'react-router-dom';
 function Navigation({onBurgerMenu}) {
 
     const navBurgerClassName = `navigation ${onBurgerMenu ? 'navigation_burger' : ''}`;
-    const navLinkBurgerClassName = `${onBurgerMenu ? 'navigation__link' : 'navigation__link_hidden'}`;
-     
+    const navLinkBurgerClassName = `${onBurgerMenu ? 'navigation__link' : 'navigation__link_hidden'}`;     
       
     return (
         <nav className={navBurgerClassName}>

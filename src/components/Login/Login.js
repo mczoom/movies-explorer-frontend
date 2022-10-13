@@ -13,10 +13,7 @@ function Login({handleLogin, loginError}) {
         getValues,
        } = useForm({
            mode: "onChange"
-       });
-
-
-       
+       });       
 
     const email = getValues('email');
     const password = getValues('password');
@@ -27,7 +24,6 @@ function Login({handleLogin, loginError}) {
     const onSubmit = (email, password) => {
         handleLogin(email, password);
     }
-
      
       
     return (

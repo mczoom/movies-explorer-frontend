@@ -101,7 +101,6 @@
         font-size: 12px;
         line-height: 150%;
     }
-
     
     .timeline-sector__span {        
         font-weight: 400;        
@@ -115,9 +114,7 @@
     #about-project {    
         padding-left: 40px;
         padding-right: 40px;
-    }
-
-   
+    }   
 
     .timeline-sector__text {
         font-size: 11px;
@@ -169,7 +166,5 @@
     .timeline-sector__span {
         font-size: 11px;
         margin-top: 10px;
-    }
-
-    
+    }    
 }

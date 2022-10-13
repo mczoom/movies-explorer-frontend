@@ -5,14 +5,11 @@ import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 function EditProfilePopup({isEditProfilePopupOpen, onClose, onUpdate}) {
 
-    const currentUser = React.useContext(CurrentUserContext);
-
-    
-
+    const currentUser = React.useContext(CurrentUserContext);  
     
     const { 
         register,        
-        formState: {errors, isValid, isDirty},
+        formState: {errors, isValid},
         handleSubmit,
         getValues,
         watch,
@@ -54,8 +51,7 @@ function EditProfilePopup({isEditProfilePopupOpen, onClose, onUpdate}) {
            
     return (
         <section className={popupClassName}>
-            <div className='form-section__wrap popup__container'>
-                            
+            <div className='form-section__wrap popup__container'>                            
             <form className='form' onSubmit={handleSubmit(onSubmit)}>
                 <div className='form__input'>
                     <label className='form__input-label'>Имя
@@ -93,7 +89,6 @@ function EditProfilePopup({isEditProfilePopupOpen, onClose, onUpdate}) {
                 </div>
             </form>
             </div>            
-            
         </section>
     );
 }
