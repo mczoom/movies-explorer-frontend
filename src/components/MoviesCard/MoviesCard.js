@@ -13,17 +13,17 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     const [isLiked, setIsLiked] = React.useState(false)
 
     const film = {
-        country: movie.country || 'нет',
-        director: movie.director || 'Нет',
-        duration: movie.duration || 0,
-        year: movie.year || 'Нет',
-        description: movie.description || 'Нет',
+        country: movie.country || 'n/a',
+        director: movie.director || 'n/a',
+        duration: movie.duration || '',
+        year: movie.year || 'n/a',
+        description: movie.description || 'n/a',
         cover: savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`,
         link: savedMoviesPage ? movie.trailer : movie.trailerLink,
         thumbnail: savedMoviesPage ? movie.thumbnail : `${APIBF_BASE_URL}${movie.image.formats.thumbnail.url}`,
         movieId: savedMoviesPage ? movie._id : movie.id,
-        title: movie.nameRU || 'Нет',
-        nameEN: movie.nameEN || 'Нет',
+        title: movie.nameRU || '',
+        nameEN: movie.nameEN || 'n/a',
     }
 
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
@@ -61,7 +61,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
       
     return (
         <div className='card'>
-            <a href={film.link} className='link' target='_blank'>
+            <a href={film.link} className='link' target='_blank' rel="noreferrer">
                 <img src={film.cover} className='card__image' alt='Обложка карточки в виде кадра из фильма' />
             </a>
             <div className='card__title-wrap'>
