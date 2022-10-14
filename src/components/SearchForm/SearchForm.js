@@ -5,14 +5,22 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox, changeShortFilmStatus}) {
 
+    React.useEffect(() => {
+        const searchQuery = localStorage.getItem('searchQuery');
+        if(searchQuery && !savedMoviesPage) {        
+        setValue('movie', searchQuery);
+        }
+      }, []);
+
     
     const { 
         register,
-        formState: {errors, isValid},
+        formState: {errors},
         handleSubmit,
+        setValue,
         getValues,
        } = useForm({
-           mode: "onChange"
+           mode: "onSubmit"
        });
        
        
@@ -33,14 +41,10 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
             <form className='search-form' onSubmit={savedMoviesPage? handleSubmit(handleSavedMoviesSearch) : handleSubmit(handleMoviesSearch)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
                 {...register('movie', {                    
-                    required: 'Введите название фильма в строку поиска',
-                    minLength: { 
-                        value: 2,
-                        message: 'Название фильма должно быть не менее 2-х симоволов'
-                    },        
+                    required: 'Нужно ввести ключевое слово',                    
                     })}
                 ></input>
-                <button className='search-form__find-button' type='submit' disabled={!isValid}></button>
+                <button className='search-form__find-button' type='submit' ></button>
             </form>
             {errors.movie && <span className='search-form__error-message'>{errors.movie.message || "Ошибка"}</span>}
             <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>

@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import {APIBF_BASE_URL} from '../utils/config';
+import {checkMovieTrailerUrl} from '../utils/validators';
 
 
 
@@ -10,7 +11,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
 
-    const [isLiked, setIsLiked] = React.useState(false)
+    const [isLiked, setIsLiked] = React.useState(false)    
 
     const film = {
         country: movie.country || 'n/a',
@@ -19,17 +20,16 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
         year: movie.year || 'n/a',
         description: movie.description || 'n/a',
         cover: savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`,
-        link: savedMoviesPage ? movie.trailer : movie.trailerLink,
+        link: checkMovieTrailerUrl(movie.trailerLink),
         thumbnail: savedMoviesPage ? movie.thumbnail : `${APIBF_BASE_URL}${movie.image.formats.thumbnail.url}`,
         movieId: savedMoviesPage ? movie._id : movie.id,
-        title: movie.nameRU || '',
+        title: movie.nameRU || 'Название не указано',
         nameEN: movie.nameEN || 'n/a',
     }
 
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    const currentUserSavedMovies = savedMovies.filter((movie) => (movie.owner === currentUser.userId));
-
-    const isMovieSaved = currentUserSavedMovies.some(function(film) {
+    
+    const isMovieSaved = savedMovies.some(function(film) {
         return film.movieId === movie.id;
     });
    
@@ -41,10 +41,10 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     function likeMovie() {        
         if(!isMovieSaved) {
             handleLike(movie);
-            setIsLiked(!isLiked);
-            return;
-        } 
-        removeLike(movie.id);        
+            setIsLiked(!isLiked);            
+        } else {
+        removeLike(movie.id);
+        }
     }
 
     function unLikeMovie() {        
@@ -53,7 +53,8 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     }    
 
     function removeLike(id) {
-        const cardId = currentUserSavedMovies.find((movie) => movie.movieId === id)        
+        const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+        const cardId = savedMovies.find((movie) => movie.movieId === id)        
         onDelete(cardId);
         setIsLiked(false);
     }    

@@ -157,7 +157,8 @@
       width: 520px;
       height: 100vh;
       background: #FAFAFA;
-      overflow: auto;        
+      overflow: auto;
+      z-index: 3;
     }
   
     .burger-menu__close-button {

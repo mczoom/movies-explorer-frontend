@@ -55,7 +55,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
         <section className='movies-list'>
             <div className='movies-list__error-messages'>
               <span className="errMessage search-form__likeErr-message">{likeError}</span>
-              <span className="errMessage search-form__not-found-message">{noFoundMoviesMessage}</span>
+              <span className="errMessage search-form__not-found-message">{noFoundMoviesMessage ? 'Ничего не найдено' : ''}</span>
               <span className="errMessage search-form__serverErr-message">{serverError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : ''}</span>
             </div>
             <Preloader isLoading={isLoading} />            

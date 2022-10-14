@@ -96,7 +96,11 @@
     .card__film-duration {
         margin-top: 8px;
         margin-left: 14px;        
-    }    
+    }
+
+    .card__delete-like-button {
+        opacity: 1;
+    }
 }
 
 @media screen and (max-width: 320px) {

@@ -1,4 +1,5 @@
 import {BASE_URL} from './config';
+import {checkMovieTrailerUrl} from './validators'; 
 
 
 const handleResponse = (res) => {
@@ -33,7 +34,7 @@ export const register = (name, email, password) => {
   };
 
 
-  export const getContent = (token) => {
+  export const getContent = () => {
     return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -45,7 +46,7 @@ export const register = (name, email, password) => {
   };
 
 
-  export const getCurrentUser = (name, email) => {
+  export const getCurrentUser = () => {
     return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -77,14 +78,14 @@ export const saveMovie = (movie) => {
       "Authorization": `Bearer ${localStorage.getItem('token')}`,
     },
     body: JSON.stringify({
-      country: movie.country,
-      director: movie.director,
-      duration: movie.duration,
-      year: movie.year,
-      description: movie.description,
-      trailerLink: movie.trailerLink,
-      nameRU: movie.nameRU,
-      nameEN: movie.nameEN,
+      country: movie.country || 'n/a',
+      director: movie.director || 'n/a',
+      duration: movie.duration || 'n/a',
+      year: movie.year || 'n/a',
+      description: movie.description || 'n/a',
+      trailerLink: checkMovieTrailerUrl(movie.trailerLink),
+      nameRU: movie.nameRU || 'Название не указано',
+      nameEN: movie.nameEN || 'n/a',
       image: `https://api.nomoreparties.co${movie.image.url}`,
       thumbnail: `https://api.nomoreparties.co${movie.image.formats.thumbnail.url}`,
       movieId: movie.id})
