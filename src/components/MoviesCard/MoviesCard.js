@@ -6,7 +6,7 @@ import {checkMovieTrailerUrl} from '../utils/validators';
 
 
 
-function MoviesCard({movie, savedMoviesPage, handleLike, onDelete, likedMovies}) {
+function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();

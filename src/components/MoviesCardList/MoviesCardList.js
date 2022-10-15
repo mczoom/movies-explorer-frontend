@@ -62,7 +62,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (
-                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage} likedMovies={movies} /></li>
+                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage} /></li>
                   ))
                 }
             </ul>

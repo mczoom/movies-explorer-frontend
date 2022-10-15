@@ -16,10 +16,8 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
 
-
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
-  // const [token, setToken] = React.useState({}); 
   const [isLogged, setIsLogged] = React.useState('');
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
@@ -75,7 +73,6 @@ function App() {
   function initialMovieSearch(searchQuery) {
     setIsLoading(true);
     setServerError(false);
-    setNoFoundMoviesMessage(false);
     if(!isShortFilmChecked) {      
       apiBF.getAllMovies()
         .then((data) => {          
@@ -109,7 +106,6 @@ function App() {
 
 
   function searchMoviesAfterInitialSearch (searchQuery) {
-    setNoFoundMoviesMessage(false);
     if(!isShortFilmChecked) {        
       const searchedMovies = movies.filter(movie => {
         return movie.nameRU.toLowerCase().includes(searchQuery);
@@ -137,7 +133,6 @@ function App() {
   
 
   function searchSavedMovies(searchQuery) {
-    setNoFoundMoviesMessage(false);
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
     if(savedMovies !== null) {
       if(!isSavedShortFilmChecked) {
@@ -167,7 +162,7 @@ function App() {
 
 
   function clearAllErrors() {
-    setNoFoundMoviesMessage('');
+    setNoFoundMoviesMessage(false);
     setupdateUserInfoResponse('');
     setServerError('')
     setLikeError('');
