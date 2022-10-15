@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import {APIBF_BASE_URL} from '../utils/config';
 import {checkMovieTrailerUrl} from '../utils/validators';
 
@@ -8,7 +7,6 @@ import {checkMovieTrailerUrl} from '../utils/validators';
 
 function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
 
-    const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
 
     const [isLiked, setIsLiked] = React.useState(false)    

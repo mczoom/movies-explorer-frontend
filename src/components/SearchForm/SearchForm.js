@@ -8,7 +8,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
     React.useEffect(() => {
         const searchQuery = localStorage.getItem('searchQuery');
         if(searchQuery && !savedMoviesPage) {        
-        setValue('movie', searchQuery);
+          setValue('movie', searchQuery);        
         }
       }, []);
 
@@ -47,7 +47,7 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
                 <button className='search-form__find-button' type='submit' ></button>
             </form>
             {errors.movie && <span className='search-form__error-message'>{errors.movie.message || "Ошибка"}</span>}
-            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>
+            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={savedMoviesPage}/>
             <div className='search__divider'></div>
         </section>
     );

@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer';
 
 function Movies({movies, searchMovies, toggleCheckBox, isLoading, isShortFilmChecked, handleLike, deleteSavedMovie, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError, likeError}) {
 
-React.useEffect(() => {
+React.useEffect(() => {  
   clearAllErrors();   
 }, []);
 
@@ -16,7 +16,7 @@ React.useEffect(() => {
         <div className='movies-page'>
           <Header />
           <main>
-            <SearchForm onSearch={searchMovies} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} changeShortFilmStatus={changeShortFilmStatus}/>
+            <SearchForm onSearch={searchMovies} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} changeShortFilmStatus={changeShortFilmStatus} />
             <MoviesCardList movies={movies}
                             isLoading={isLoading}
                             handleLike={handleLike}

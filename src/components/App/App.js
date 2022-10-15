@@ -106,31 +106,36 @@ function App() {
 
 
   function searchMoviesAfterInitialSearch (searchQuery) {
-    if(!isShortFilmChecked) {        
-      const searchedMovies = movies.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(searchQuery);
-      })
-      searchResultMessage(searchedMovies);
-      localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
-      setSearchedMovies(searchedMovies);
-    } else {
-      const searchedShortMovies = movies.filter(movie => {
-        return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
-      })
-      searchResultMessage(searchedShortMovies);
-      localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
-      setSearchedMovies(searchedShortMovies);
+    const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+    if(allMovies) {
+      if(!isShortFilmChecked) {      
+        const searchedMovies = allMovies.filter(movie => {
+          return movie.nameRU.toLowerCase().includes(searchQuery);
+        })
+        searchResultMessage(searchedMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+        setSearchedMovies(searchedMovies);
+      } else {
+        const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+        const searchedShortMovies = allMovies.filter(movie => {
+          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
+        })
+        searchResultMessage(searchedShortMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+        setSearchedMovies(searchedShortMovies);
+      }
     }
   }  
   
+
   function searchMovies(searchQuery) {        
     if(!movies || movies.length < 1) {             
         initialMovieSearch(searchQuery)      
     } else {
       searchMoviesAfterInitialSearch (searchQuery);  
     }
-  }    
-  
+  } 
+
 
   function searchSavedMovies(searchQuery) {
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
@@ -216,10 +221,7 @@ function App() {
     }
   };
 
-  function updateMovies() {    
-    setSearchedMovies(searchedMovies);    
-  }
-
+  
   function updateSavedMovies() {
     api.getAllSavedMovies(token)
       .then((movies) => {
@@ -247,7 +249,7 @@ function App() {
       setLikedMovies(updatedSavedMovies);
       localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
     })
-      .catch(() => setLikeError('Произошла ошибка, фильм не сохранён'));    
+    .catch(() => setLikeError('Произошла ошибка, фильм не сохранён'));    
   }
 
   function deleteSavedMovie(movie) {
@@ -332,8 +334,7 @@ function App() {
               component={Movies} 
               movies={searchedMovies} 
               changeShortFilmStatus={changeShortFilmStatus} 
-              searchMovies={searchMovies} 
-              updateMovies={updateMovies} 
+              searchMovies={searchMovies}
               isLoading={isLoading} 
               isLoggedIn={isLoggedIn} 
               isShortFilmChecked={isShortFilmChecked} 
@@ -343,6 +344,7 @@ function App() {
               clearAllErrors={clearAllErrors} 
               serverError={serverError} 
               likeError={likeError}
+              onRefresh={searchMoviesAfterInitialSearch}
           />
           <ProtectedRoute path="/saved-movies" 
               component={SavedMovies} 

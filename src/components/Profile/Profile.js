@@ -32,13 +32,13 @@ function Profile({onLogout, onEdit, isEditProfilePopupOpen, onClose, onUpdate, u
                 <div className='profile-info__field'>
                     <span className='profile-info__header'>E-mail</span>
                     <span className='profile-info__value'>{currentUser.email}</span>
-                </div>
-                <span className='profile__edit-message'>{updateUserInfoResponse}</span>
-            </form>
-            <div className='form__submitButton-wrap'>
-                <span className='profile__error-message'>{profileError}</span>
-                <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>
-            </div>
+                </div>                                
+            </form> 
+            <div className='profile__messages'>
+                <span className='profile__message profile__edit-message'>{updateUserInfoResponse}</span>
+                <span className='profile__message profile__error-message'>{profileError}</span>
+            </div>           
+            <button className='profile__edit-button link' type='button' onClick={onEdit}>Редактировать</button>            
             <button className='profile__logout_button link' type='button' onClick={onLogout}>Выйти из аккаунта</button>                
           </div>
           <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={onClose} currentUserName={currentUserName} currentUserEmail={currentUserEmail} onUpdate={onUpdate} />
