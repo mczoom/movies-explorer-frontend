@@ -6,7 +6,7 @@ import {checkMovieTrailerUrl} from '../utils/validators';
 
 
 
-function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
+function MoviesCard({movie, savedMoviesPage, handleLike, onDelete, likedMovies}) {
 
     const currentUser = React.useContext(CurrentUserContext);
     const location = useLocation();
@@ -32,7 +32,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     const isMovieSaved = savedMovies.some(function(film) {
         return film.movieId === movie.id;
     });
-   
+
     const likeButtonClassName = `card__like-button ${isMovieSaved ? 'card__like-button_liked' : ''}`;
 
     const durationHours = Math.floor(film.duration/60);

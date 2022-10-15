@@ -34,7 +34,7 @@ export const register = (name, email, password) => {
   };
 
 
-  export const getContent = () => {
+  export const getContent = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -46,7 +46,7 @@ export const register = (name, email, password) => {
   };
 
 
-  export const getCurrentUser = () => {
+  export const getCurrentUser = (token) => {
     return fetch(`${BASE_URL}/users/me`, {
       method: 'GET',
       headers: {
@@ -58,7 +58,7 @@ export const register = (name, email, password) => {
   };
   
   
-  export const updateUser = (name, email) => {
+  export const updateUser = (name, email, token) => {
     return fetch(`${BASE_URL}/users/me`, {
         method: 'PATCH',
         headers: {
@@ -70,7 +70,7 @@ export const register = (name, email, password) => {
     .then((res) => handleResponse(res));
 }
 
-export const saveMovie = (movie) => {
+export const saveMovie = (movie, token) => {
   return fetch(`${BASE_URL}/movies`, {
     method: 'POST',
     headers: {
@@ -94,7 +94,7 @@ export const saveMovie = (movie) => {
 };
 
 
-export const getAllSavedMovies = () => {
+export const getAllSavedMovies = (token) => {
   return fetch(`${BASE_URL}/movies`, {
     headers: {
         "Content-Type": "application/json",
@@ -105,7 +105,7 @@ export const getAllSavedMovies = () => {
   };
 
 
-  export const deleteSavedMovie = (id) => {
+  export const deleteSavedMovie = (id, token) => {
     return fetch(`${BASE_URL}/movies/${id}`, {
         method: 'DELETE',
         headers: {

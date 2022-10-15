@@ -19,7 +19,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
-  const [token, setToken] = React.useState({}); 
+  // const [token, setToken] = React.useState({}); 
   const [isLogged, setIsLogged] = React.useState('');
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
@@ -43,6 +43,7 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
+  const token = localStorage.getItem('token');
   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
   function changeShortFilmStatus() {    
@@ -102,7 +103,7 @@ function App() {
         setSearchedMovies(searchedShortMovies);
       })              
       .catch(() => setServerError(true))
-      .finally(() => setIsLoading(false));  
+      .finally(() => setIsLoading(false));
     }    
   }
 
@@ -174,7 +175,7 @@ function App() {
   }
 
   function setCurrentUserInfo() {
-    api.getCurrentUser()
+    api.getCurrentUser(token)
       .then((data) => {            
         setCurrentUser(data);                 
       })
@@ -212,7 +213,7 @@ function App() {
       console.log('Ошибка авторизации');
     });
     if(isLoggedIn) {
-      api.getContent()
+      api.getContent(token)
         .then((userInfo) => {
           setCurrentUserInfo(userInfo);
         })
@@ -220,14 +221,12 @@ function App() {
     }
   };
 
-
   function updateMovies() {    
     setSearchedMovies(searchedMovies);    
   }
 
-
   function updateSavedMovies() {
-    api.getAllSavedMovies()
+    api.getAllSavedMovies(token)
       .then((movies) => {
         localStorage.setItem('savedMovies', JSON.stringify(movies));
         setLikedMovies(movies);
@@ -237,7 +236,7 @@ function App() {
 
 
   function updateUserInfo(name, email) {
-    api.updateUser(name, email)
+    api.updateUser(name, email, token)
       .then((res) => {
         setCurrentUser({name: res.name, email: res.email})
         setupdateUserInfoResponse('Профиль успешно обновлен');
@@ -247,17 +246,26 @@ function App() {
 
 
   function handleLike (movie) {
-    api.saveMovie(movie)      
-      .catch((err) => setLikeError('Произошла ошибка, фильм не сохранён'));
-    updateSavedMovies();
-  }
-  
-  function deleteSavedMovie(movie) {
-    api.deleteSavedMovie(movie._id)
-    .then(() => updateSavedMovies())     
-    .catch((err) => console.log('Ошибка при удалении фильма'));     
+    api.saveMovie(movie, token)
+    .then((newMovie) => {
+      const updatedSavedMovies = [...likedMovies, newMovie];
+      setLikedMovies(updatedSavedMovies);
+      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
+    })
+      .catch(() => setLikeError('Произошла ошибка, фильм не сохранён'));    
   }
 
+  function deleteSavedMovie(movie) {
+    api.deleteSavedMovie(movie._id, token)
+    .then((deletedMovie) => {
+      const updatedSavedMovies = likedMovies.filter(
+        (movie) => movie._id !== deletedMovie._id,
+      );
+      setLikedMovies(updatedSavedMovies);
+      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
+    })     
+    .catch(() => setLikeError('Произошла ошибка, фильм не удалён'));     
+  }
 
   function editProfile () {
     setEditProfilePopupState(!isEditProfilePopupOpen);
@@ -281,7 +289,6 @@ function App() {
     const allMovies = localStorage.getItem('allMovies');
     const savedMovies = localStorage.getItem('savedMovies');
     if (token) {
-        setToken(token);
         if (allMovies) {
             const movies = JSON.parse(allMovies);
             setMovies(movies);
@@ -305,9 +312,8 @@ function App() {
 
   React.useEffect(() => {
       tokenCheck();
-      updateSavedMovies();
       clearAllErrors();
-  }, []);
+  }, [isLoggedIn]);
 
   React.useEffect(() => {
     setIsSavedShortFilmChecked(false);  
@@ -327,9 +333,51 @@ function App() {
           <Route path="/signin">
             {!isLogged ? <Login handleLogin={handleLogin} loginError={loginError} /> : <Redirect to="/" />}            
           </Route>
-          <ProtectedRoute path="/movies" component={Movies} movies={searchedMovies} changeShortFilmStatus={changeShortFilmStatus} searchMovies={searchMovies} updateMovies={updateMovies} isLoading={isLoading} isLoggedIn={isLoggedIn} isShortFilmChecked={isShortFilmChecked} handleLike={handleLike} deleteSavedMovie={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} clearAllErrors={clearAllErrors} serverError={serverError} likeError={likeError} />
-          <ProtectedRoute path="/saved-movies" component={SavedMovies} movies={likedMovies} changeShortFilmStatus={changeSavedShortFilmStatus} searchQuerySavedMovies={searchQuerySavedMovies} likedMovies={likedMovies} updateSavedMovies={updateSavedMovies} foundSavedMovies={foundSavedMovies} isSavedSearchUsed={isSavedSearchUsed} isLoggedIn={isLoggedIn} onSearchSaved={searchSavedMovies} deleteSavedMovie={deleteSavedMovie} isShortFilmChecked={isSavedShortFilmChecked} noFoundMoviesMessage={noFoundSavedMoviesMessage} clearAllErrors={clearAllErrors} serverError={serverError} savedMoviesPage={true} />
-          <ProtectedRoute path="/profile" component={Profile} isLoggedIn={isLoggedIn} onLogout={logOut} setCurrentUserInfo={setCurrentUserInfo} onEdit={editProfile} onUpdate={updateUserInfo} updateUserInfoResponse={updateUserInfoResponse} isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={closeEditProfilePopup} profileError={profileError} />
+          <ProtectedRoute path="/movies" 
+              component={Movies} 
+              movies={searchedMovies} 
+              changeShortFilmStatus={changeShortFilmStatus} 
+              searchMovies={searchMovies} 
+              updateMovies={updateMovies} 
+              isLoading={isLoading} 
+              isLoggedIn={isLoggedIn} 
+              isShortFilmChecked={isShortFilmChecked} 
+              handleLike={handleLike} 
+              deleteSavedMovie={deleteSavedMovie} 
+              noFoundMoviesMessage={noFoundMoviesMessage} 
+              clearAllErrors={clearAllErrors} 
+              serverError={serverError} 
+              likeError={likeError}
+          />
+          <ProtectedRoute path="/saved-movies" 
+              component={SavedMovies} 
+              movies={likedMovies} 
+              changeShortFilmStatus={changeSavedShortFilmStatus} 
+              searchQuerySavedMovies={searchQuerySavedMovies} 
+              updateSavedMovies={updateSavedMovies} 
+              foundSavedMovies={foundSavedMovies} 
+              isSavedSearchUsed={isSavedSearchUsed} 
+              isLoggedIn={isLoggedIn} 
+              onSearchSaved={searchSavedMovies} 
+              deleteSavedMovie={deleteSavedMovie} 
+              isShortFilmChecked={isSavedShortFilmChecked} 
+              noFoundMoviesMessage={noFoundSavedMoviesMessage} 
+              clearAllErrors={clearAllErrors} 
+              serverError={serverError} 
+              savedMoviesPage={true}
+          />
+          <ProtectedRoute path="/profile" 
+              component={Profile} 
+              isLoggedIn={isLoggedIn} 
+              onLogout={logOut} 
+              setCurrentUserInfo={setCurrentUserInfo} 
+              onEdit={editProfile} 
+              onUpdate={updateUserInfo} 
+              updateUserInfoResponse={updateUserInfoResponse} 
+              isEditProfilePopupOpen={isEditProfilePopupOpen} 
+              onClose={closeEditProfilePopup} 
+              profileError={profileError}
+          />
           <Route path="/*">
             <Page404 />
           </Route>          

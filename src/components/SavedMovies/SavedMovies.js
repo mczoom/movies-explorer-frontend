@@ -12,7 +12,7 @@ function SavedMovies({
     updateSavedMovies,
     movies,  
     isShortFilmChecked,
-    toggleSavedMoviesCheckBox,    
+    toggleSavedMoviesCheckBox,
     noFoundMoviesMessage,
     changeShortFilmStatus, 
     clearAllErrors, 

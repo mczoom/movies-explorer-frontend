@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
-import {APIBF_BASE_URL} from '../utils/config';
+import {APIBF_BASE_URL, DESKTOP_RES, TABLET_RES, MOBILE_RES, DESKTOP, TABLET, MOBILE} from '../utils/config';
 
 
 
@@ -20,14 +20,14 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
     React.useEffect(() => {
         const renderOptions = () => {
           const width = window.innerWidth;
-          if (width >= 1280) {
-            setMoviesToRender(12);
+          if (width >= DESKTOP_RES) {
+            setMoviesToRender(DESKTOP);
             setMoreMoviesToRender(3);
-          } else if (width >= 768) {
-            setMoviesToRender(8);
+          } else if (width >= TABLET_RES) {
+            setMoviesToRender(TABLET);
             setMoreMoviesToRender(2);
-          } else {
-            setMoviesToRender(5);
+          } else if (width >= MOBILE_RES){
+            setMoviesToRender(MOBILE);
             setMoreMoviesToRender(2);
           }
         };
@@ -62,7 +62,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (
-                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage}/></li>
+                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage} likedMovies={movies} /></li>
                   ))
                 }
             </ul>
