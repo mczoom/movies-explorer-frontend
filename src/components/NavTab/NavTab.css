@@ -1,0 +1,30 @@
+.nav-tab {
+    background-color: #F5F5F5;
+    padding: 24px 0;    
+}
+
+.nav-tab__list {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 123%;
+    margin: 0;    
+}
+
+.nav-tab__item {
+    margin-right: 40px;
+}
+
+
+@media screen and (max-width: 320px) {
+    .nav-tab__list {
+        font-size: 11px;
+        line-height: 145%;
+    }
+
+    .nav-tab__item {
+        margin-right: 24px;
+    }
+}

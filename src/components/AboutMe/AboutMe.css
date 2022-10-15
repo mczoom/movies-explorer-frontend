@@ -1,0 +1,214 @@
+#about-me {
+    margin: 0 auto;
+    padding: 110px 70px 125px;
+    background-color: #FAFAFA;;
+}
+
+.about-me__profile-info {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 66px;
+    min-height: 327px;
+}
+
+.profile-info__description {
+    max-width: 600px;
+}
+
+.profile-info__name {
+    margin: 0 auto 18px;
+    font-size: 50px;
+    font-weight: 400;
+    line-height: 116%;
+    letter-spacing: -0.04em;
+}
+
+.profile-info__profession {
+    margin: 0 auto 26px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 111%;
+}
+
+.profile-info__bio {
+    margin: 0 auto 99px;
+    max-width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 157%;
+}
+
+.profile-info__contact-link {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 121%;
+}
+
+.profile-info__foto {
+    width: 270px;
+    height: 100%;
+    border-radius: 10px;
+    margin-left: 270px;   
+}
+
+.about-me__portfolio {
+    margin: 100px 0 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
+.portfolio__header {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 111%;
+    color: #A0A0A0;
+}
+
+.portfolio__project {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 0;
+    text-decoration: none;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 167%;
+    letter-spacing: -0.04em;
+    color: black;
+}
+
+.portfolio__project:first-of-type {
+    margin-top: 50px;
+}
+
+.portfolio__divider {
+    margin-top: 19px;
+    height: 1px;
+    background: #E8E8E8;
+}
+
+.portfolio__link-icon {    
+    width: 29px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-image: url('../../images/arrow.svg');
+}
+
+
+@media screen and (max-width: 845px) {
+    .profile-info__foto {
+        margin-left: 170px;   
+    }
+}
+
+
+@media screen and (max-width: 768px) {
+
+    #about-me {        
+        padding: 90px 50px;        
+    }
+
+    .profile-info__foto {
+        width: 255px;
+        margin-left: 49px;    
+    }
+
+    .profile-info__name {
+        margin-bottom: 16px;
+        font-size: 40px;
+        line-height: 100%;
+    }
+
+    .profile-info__profession {
+        margin-bottom: 20px;
+        font-size: 12px;
+        line-height: 150%;
+    }
+
+    .profile-info__bio {
+        margin: 0 auto 87px;
+        max-width: 100%;
+        font-size: 12px;        
+        line-height: 150%;
+    }
+
+    .about-me__portfolio {
+        margin-top: 91px;        
+    }
+
+    .portfolio__project {
+        font-size: 28px;        
+        line-height: 179%;        
+    }
+
+    .portfolio__link-icon {        
+        width: 27px;
+    }
+}
+
+@media screen and (max-width: 570px) {    
+
+    .profile-info__foto {
+        width: 180px;        
+        margin-left: 30px;    
+    }
+}
+
+
+@media screen and (max-width: 420px) {
+
+    #about-me {        
+        padding: 70px 14px;
+        background-color: #FAFAFA;;
+    }    
+    
+    .about-me__profile-info {
+        flex-direction: column-reverse;
+        align-items: center;        
+        margin-top: 60px;        
+    }
+
+    .profile-info__foto {
+        width: 292px;                
+        margin: 0;
+        margin-bottom: 40px;   
+    }
+
+    .profile-info__name {
+        margin-bottom: 20px;
+        font-size: 30px;
+        line-height: 121%;
+    }
+
+    .profile-info__profession {
+        font-size: 11px;
+        line-height: 145%;
+    }
+
+    .profile-info__bio {
+        margin: 0 auto 40px;
+        font-size: 11px;        
+        line-height: 145%;
+    }
+
+    .about-me__portfolio {
+        margin-top: 70px;        
+    }
+
+    .portfolio__header {
+        font-size: 14px;        
+        line-height: 143%;       
+    }
+    
+    .portfolio__project {
+        font-size: 18px;        
+        line-height: 156%;        
+    }
+    
+    .portfolio__link-icon {    
+        width: 18px;
+        height: 28px;
+    }
+}
