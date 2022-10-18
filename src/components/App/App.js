@@ -24,7 +24,6 @@ function App() {
   const [likedMovies, setLikedMovies] = React.useState([]);
   const [searchQuerySavedMovies, setSearchQuerySavedMovies] = React.useState();
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
-  const [isSavedSearchUsed, setIsSavedSearchUsed] = React.useState(false);
   const [isShortFilmChecked, setIsShortFilmChecked] = React.useState(false);
   const [isSavedShortFilmChecked, setIsSavedShortFilmChecked] = React.useState(false);
   const [registrationResponse, setRegistrationResponse] = React.useState('');
@@ -35,7 +34,6 @@ function App() {
   const [loginError, setLoginError] = React.useState('');
   const [profileError, setProfileError] = React.useState('');
   const [likeError, setLikeError] = React.useState('');
-  const [foundSavedMovies, setFoundSavedMovies] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(false);
     
   const history = useHistory();
@@ -263,6 +261,8 @@ function App() {
     })     
     .catch(() => setLikeError('Произошла ошибка, фильм не удалён'));     
   }
+  
+  console.log(likedMovies);
 
   function editProfile () {
     setEditProfilePopupState(!isEditProfilePopupOpen);
@@ -344,16 +344,12 @@ function App() {
               clearAllErrors={clearAllErrors} 
               serverError={serverError} 
               likeError={likeError}
-              onRefresh={searchMoviesAfterInitialSearch}
           />
           <ProtectedRoute path="/saved-movies" 
               component={SavedMovies} 
               movies={likedMovies} 
               changeShortFilmStatus={changeSavedShortFilmStatus} 
-              searchQuerySavedMovies={searchQuerySavedMovies} 
-              updateSavedMovies={updateSavedMovies} 
-              foundSavedMovies={foundSavedMovies} 
-              isSavedSearchUsed={isSavedSearchUsed} 
+              searchQuerySavedMovies={searchQuerySavedMovies}    
               isLoggedIn={isLoggedIn} 
               onSearchSaved={searchSavedMovies} 
               deleteSavedMovie={deleteSavedMovie} 

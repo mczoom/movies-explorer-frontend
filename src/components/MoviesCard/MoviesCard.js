@@ -25,7 +25,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
         nameEN: movie.nameEN || 'n/a',
     }
 
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
     
     const isMovieSaved = savedMovies.some(function(film) {
         return film.movieId === movie.id;
@@ -35,6 +35,13 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
 
     const durationHours = Math.floor(film.duration/60);
     const durationMinutes = film.duration % 60;
+
+    function removeLike(id) {
+        const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+        const cardId = savedMovies.find((movie) => movie.movieId === id)        
+        onDelete(cardId);
+        setIsLiked(false);
+    }
     
     function likeMovie() {        
         if(!isMovieSaved) {
@@ -48,14 +55,8 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     function unLikeMovie() {        
         onDelete(movie);
         setIsLiked(false);
-    }    
-
-    function removeLike(id) {
-        const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-        const cardId = savedMovies.find((movie) => movie.movieId === id)        
-        onDelete(cardId);
-        setIsLiked(false);
-    }    
+    }
+        
      
       
     return (
