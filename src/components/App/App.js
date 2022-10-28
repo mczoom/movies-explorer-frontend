@@ -43,12 +43,12 @@ function App() {
   const isLoggedIn = localStorage.getItem('isLoggedIn');
 
   function changeShortFilmStatus() {    
-      setIsShortFilmChecked(!isShortFilmChecked);
+      setIsShortFilmChecked(isShortFilmChecked => !isShortFilmChecked);
       localStorage.setItem('checkboxStatus', JSON.stringify(!isShortFilmChecked));
   }
 
   function changeSavedShortFilmStatus() {    
-    setIsSavedShortFilmChecked(!isSavedShortFilmChecked);
+    setIsSavedShortFilmChecked(isSavedShortFilmChecked => !isSavedShortFilmChecked);
   }  
 
   const searchResultMessage = (resultArr) => {
@@ -67,6 +67,51 @@ function App() {
       setNoFoundSavedMoviesMessage(false);
     }
   }
+
+
+  ///////////////////////////////////////////////////////////////////
+
+  function searchMovies(searchQuery) {    
+    if(movies.length > 0) {
+      const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+      if(!isShortFilmChecked) {
+        const searchedMovies = allMovies.filter(movie => {
+          return movie.nameRU.toLowerCase().includes(searchQuery);
+        })
+        searchResultMessage(searchedMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+        setSearchedMovies(searchedMovies);
+      } else {
+        const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+        const searchedShortMovies = allMovies.filter(movie => {
+          return movie.nameRU.toLowerCase().includes(searchQuery) && movie.duration <= SHORT_MOVIE_DURATION;
+        })
+        searchResultMessage(searchedShortMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(searchedShortMovies));
+        setSearchedMovies(searchedShortMovies);
+      }
+    } else {
+      setIsLoading(true);
+      setServerError(false);
+      apiBF.getAllMovies()
+        .then((data) => {          
+          localStorage.setItem('allMovies', JSON.stringify(data));
+          setMovies(data);
+          const searchedMovies = data.filter(movie => {
+            return movie.nameRU.toLowerCase().includes(searchQuery);
+          })
+          searchResultMessage(searchedMovies);
+          localStorage.setItem('foundMovies', JSON.stringify(searchedMovies));
+          setSearchedMovies(searchedMovies);
+        })              
+        .catch(() => setServerError(true))
+        .finally(() => setIsLoading(false));
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////
+
+  
   
   function initialMovieSearch(searchQuery) {
     setIsLoading(true);
@@ -126,7 +171,7 @@ function App() {
   }  
   
 
-  function searchMovies(searchQuery) {        
+  function searchMoviess(searchQuery) {        
     if(!movies || movies.length < 1) {             
         initialMovieSearch(searchQuery)      
     } else {
@@ -211,7 +256,7 @@ function App() {
       console.log('Ошибка авторизации');
     });
     if(isLoggedIn) {
-      api.getContent(token)
+      api.getContent()
         .then((userInfo) => {
           setCurrentUserInfo(userInfo);
         })
@@ -221,7 +266,7 @@ function App() {
 
   
   function updateSavedMovies() {
-    api.getAllSavedMovies(token)
+    api.getAllSavedMovies()
       .then((movies) => {
         localStorage.setItem('savedMovies', JSON.stringify(movies));
         setLikedMovies(movies);
@@ -231,7 +276,7 @@ function App() {
 
 
   function updateUserInfo(name, email) {
-    api.updateUser(name, email, token)
+    api.updateUser(name, email)
       .then((res) => {
         setCurrentUser({name: res.name, email: res.email})
         setupdateUserInfoResponse('Профиль успешно обновлен');
@@ -241,7 +286,7 @@ function App() {
 
 
   function handleLike (movie) {
-    api.saveMovie(movie, token)
+    api.saveMovie(movie)
     .then((newMovie) => {
       const updatedSavedMovies = [...likedMovies, newMovie];
       setLikedMovies(updatedSavedMovies);
@@ -251,7 +296,7 @@ function App() {
   }
 
   function deleteSavedMovie(movie) {
-    api.deleteSavedMovie(movie._id, token)
+    api.deleteSavedMovie(movie._id)
     .then((deletedMovie) => {
       const updatedSavedMovies = likedMovies.filter(
         (movie) => movie._id !== deletedMovie._id,
@@ -294,7 +339,7 @@ function App() {
             const likedFilms = JSON.parse(savedMovies);
             setLikedMovies(likedFilms);
         }
-        api.getContent(token)
+        api.getContent()
             .then((user) => {
               setCurrentUser(user);
               localStorage.setItem('isLoggedIn', true);
@@ -350,7 +395,8 @@ function App() {
               movies={likedMovies} 
               changeShortFilmStatus={changeSavedShortFilmStatus} 
               searchQuerySavedMovies={searchQuerySavedMovies}    
-              isLoggedIn={isLoggedIn} 
+              isLoggedIn={isLoggedIn}
+              updateSavedMovies={updateSavedMovies}
               onSearchSaved={searchSavedMovies} 
               deleteSavedMovie={deleteSavedMovie} 
               isShortFilmChecked={isSavedShortFilmChecked} 

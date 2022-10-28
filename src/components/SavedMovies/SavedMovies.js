@@ -8,7 +8,8 @@ import Footer from '../Footer/Footer';
 function SavedMovies({
     deleteSavedMovie,     
     onChecked,
-    onSearchSaved,
+    onSearchSaved,   
+    updateSavedMovies,
     movies,  
     isShortFilmChecked,
     toggleSavedMoviesCheckBox,
@@ -19,7 +20,8 @@ function SavedMovies({
 }) 
 {
 
-  React.useEffect(() => {    
+  React.useEffect(() => {
+    updateSavedMovies();    
     localStorage.setItem('searchQuerySavedMovies', '');
     clearAllErrors();
 }, []);
