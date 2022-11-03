@@ -5,7 +5,19 @@ import profileFoto from '../../images/profile-foto.jpg'
 function AboutMe() {
 
     const dateOfBirth = '1983-09-23';
-    const whatIsMyAgeAgain = (dob) => Math.floor((new Date() - new Date(dob)) / (1000 * 3600 * 24 * 365.25));
+    const age = (dob) => Math.floor((new Date() - new Date(dob)) / (1000 * 3600 * 24 * 365.25));
+    const ageLastDigit = (dob) => age(dob) % 10;
+
+  //не подходит для тинейджеров
+    function whatIsMyAgeAgain(dob) {
+      if(ageLastDigit(dob) === 0 || ageLastDigit(dob) >= 5) {
+        return `${age(dob)} лет`;
+      } else if (ageLastDigit(dob) === 1) {
+        return `${age(dob)} год`;
+      } else {
+        return `${age(dob)} года`;
+      }
+    }
 
 
     return (
@@ -14,8 +26,8 @@ function AboutMe() {
           <div className='about-me__profile-info'>
                 <div className='profile-info__description'>
                     <h3 className='profile-info__name'>Андрей</h3>
-                    <h4 className='profile-info__profession'>Фронтенд-разработчик, {whatIsMyAgeAgain(dateOfBirth)} лет</h4>
-                    <p className='profile-info__bio'>Я&nbsp;начинающий веб-разработчик. Еще во&nbsp;времена AOL, Yahoo и&nbsp;narod.ru
+                    <h4 className='profile-info__profession'>Фронтенд-разработчик, {whatIsMyAgeAgain(dateOfBirth)} </h4>
+                    <p className='profile-info__bio'>Ещё во&nbsp;времена AOL, Yahoo и&nbsp;narod.ru я
                         увлекался созданием простейших сайтов и&nbsp;вот, наконец, больше не&nbsp;могу сопротивляться желанию создавать и&nbsp;улучшать веб приложения,
                         пришло время заняться этим серьезно. Большую часть свободного времени
                         совершенствую свои навыки, учусь новому, впитываю информацию.
