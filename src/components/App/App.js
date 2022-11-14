@@ -18,7 +18,7 @@ import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
-  const [isLogged, setIsLogged] = React.useState('');
+  const [isLogged, setIsLogged] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [likedMovies, setLikedMovies] = React.useState([]);
@@ -35,6 +35,9 @@ function App() {
   const [profileError, setProfileError] = React.useState('');
   const [likeError, setLikeError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const storagedSearchQuery = localStorage.getItem('searchQuery');
+  const stoaragedSearchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');
 
   const history = useHistory();
   const location = useLocation();
@@ -124,12 +127,13 @@ function App() {
     }
   }
 
+
   React.useEffect(() => {
-    const searchQuery = localStorage.getItem('searchQuery');
-    const searchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');
-    searchMovies(searchQuery);
-    searchSavedMovies(searchQuerySavedMovies);
-  }, [isShortFilmChecked, isSavedShortFilmChecked]);
+    if(isLogged) {
+      searchMovies(storagedSearchQuery);
+      searchSavedMovies(stoaragedSearchQuerySavedMovies);
+    }
+  }, [isShortFilmChecked, isSavedShortFilmChecked, storagedSearchQuery, stoaragedSearchQuerySavedMovies]);
 
 
   function clearAllErrors() {
@@ -243,7 +247,7 @@ function App() {
   function logOut() {
     localStorage.clear();
     setCurrentUser({});
-    setIsLogged('');
+    setIsLogged(false);
     history.push('/');
   }
 

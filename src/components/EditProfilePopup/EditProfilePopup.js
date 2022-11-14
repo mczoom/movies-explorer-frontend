@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm, useFormState } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 
@@ -75,7 +75,7 @@ function EditProfilePopup({isEditProfilePopupOpen, onClose, onUpdate}) {
                         {...register("email", {
                         required: "Необходимо заполнить",
                         pattern: {
-                            value: /^[_a-z0-9-\+-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i,
+                            value: /^[_a-z0-9-+-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i,
                             message: "Введите адрес электронной почты"
                         }
                         })}
