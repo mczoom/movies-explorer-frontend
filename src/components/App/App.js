@@ -37,7 +37,7 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
 
   const storagedSearchQuery = localStorage.getItem('searchQuery');
-  const stoaragedSearchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');
+  const stoaragedSearchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');  //заменить на переменную состояния?
 
   const history = useHistory();
   const location = useLocation();
@@ -82,14 +82,12 @@ function App() {
   function searchMovies(searchQuery) {
     if(movies.length > 0) {
       if(!isShortFilmChecked) {
-        const foundFilms = searchedFilms(movies, searchQuery);
-        moviesSearchResultMessage(foundFilms);
-        localStorage.setItem('foundMovies', JSON.stringify(foundFilms));
-        setSearchedMovies(foundFilms);
+        const foundMovies = searchedFilms(movies, searchQuery);
+        moviesSearchResultMessage(foundMovies);
+        setSearchedMovies(foundMovies);
       } else {
         const foundShortFilms = searchedShortFilms(movies, searchQuery);
         moviesSearchResultMessage(foundShortFilms);
-        localStorage.setItem('foundMovies', JSON.stringify(foundShortFilms));
         setSearchedMovies(foundShortFilms);
       }
     } else {
@@ -99,10 +97,9 @@ function App() {
         .then((data) => {
           localStorage.setItem('allMovies', JSON.stringify(data));
           setMovies(data);
-          const foundFilms = searchedFilms(data, searchQuery);
-          moviesSearchResultMessage(foundFilms);
-          localStorage.setItem('foundMovies', JSON.stringify(foundFilms));
-          setSearchedMovies(foundFilms);
+          const foundMovies = searchedFilms(data, searchQuery);
+          moviesSearchResultMessage(foundMovies);
+          setSearchedMovies(foundMovies);
         })
         .catch(() => setServerError(true))
         .finally(() => setIsLoading(false));
@@ -246,6 +243,9 @@ function App() {
 
   function logOut() {
     localStorage.clear();
+    setMovies([]);
+    setSearchedMovies([]);
+    setIsShortFilmChecked(false);
     setCurrentUser({});
     setIsLogged(false);
     history.push('/');

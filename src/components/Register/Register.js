@@ -78,7 +78,7 @@ function Register({handleRegistration, registrationResponse}) {
                     </label>
                     <span className='form__input-error-message'>{errors.password && <p>{errors.password.message || "Ошибка"}</p>}</span>
                 </div>
-                <div className='form__submitButton-wrap'>
+                <div className='form__submit-button-wrap'>
                 <span className='form__reg-error-message'>{registrationResponse}</span>
                 <button className='form__submit-button' type='submit' >Зарегистрироваться</button>
                 </div>

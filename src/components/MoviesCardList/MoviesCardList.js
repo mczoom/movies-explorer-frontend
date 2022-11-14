@@ -7,15 +7,13 @@ import {APIBF_BASE_URL, DESKTOP_RES, TABLET_RES, MOBILE_RES, DESKTOP, TABLET, MO
 
 
 function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, likeError}) {
-    
+
     const location = useLocation();
 
     const [renderedCards, setRenderedCards] = React.useState([]);
     const [moviesToRender, setMoviesToRender] = React.useState(0);
-    const [moreMoviesToRender, setMoreMoviesToRender] = React.useState(0);    
-    
-    const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
-        
+    const [moreMoviesToRender, setMoreMoviesToRender] = React.useState(0);
+
 
     React.useEffect(() => {
         const renderOptions = () => {
@@ -31,13 +29,13 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
             setMoreMoviesToRender(2);
           }
         };
-    
-        renderOptions();    
+
+        renderOptions();
         window.addEventListener("resize", renderOptions);
         return () => window.removeEventListener("resize", renderOptions);
       }, []);
 
-    
+
     const loadMoreMovies = () => {
         setMoviesToRender(moviesToRender + moreMoviesToRender);
     }
@@ -50,7 +48,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
       }
     }, [movies, moviesToRender])
 
-              
+
     return (
         <section className='movies-list'>
             <div className='movies-list__error-messages'>
@@ -58,7 +56,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
               <span className="errMessage search-form__not-found-message">{noFoundMoviesMessage ? 'Ничего не найдено' : ''}</span>
               <span className="errMessage search-form__serverErr-message">{serverError ? 'Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз' : ''}</span>
             </div>
-            <Preloader isLoading={isLoading} />            
+            <Preloader isLoading={isLoading} />
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (
@@ -66,9 +64,9 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
                   ))
                 }
             </ul>
-        {location.pathname === '/movies' && foundMovies !==null && moviesToRender < foundMovies.length ? (
+        {location.pathname === '/movies' && movies !==null && moviesToRender < movies.length ? (
             <button className='pagination-button' type='button' onClick={loadMoreMovies}>Ещё</button>
-        ) :  ''}    
+        ) :  ''}
         </section>
     );
 }
