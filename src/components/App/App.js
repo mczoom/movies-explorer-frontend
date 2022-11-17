@@ -127,7 +127,9 @@ function App() {
 
   React.useEffect(() => {
     if(isLogged) {
+      if(storagedSearchQuery) {
       searchMovies(storagedSearchQuery);
+      }
       searchSavedMovies(stoaragedSearchQuerySavedMovies);
     }
   }, [isShortFilmChecked, isSavedShortFilmChecked, storagedSearchQuery, stoaragedSearchQuerySavedMovies]);
