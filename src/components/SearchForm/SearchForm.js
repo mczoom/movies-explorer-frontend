@@ -3,17 +3,17 @@ import { useForm } from 'react-hook-form';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 
-function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleCheckBox, toggleSavedMoviesCheckBox, changeShortFilmStatus}) {
+function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, savedMoviesPage, toggleSavedMoviesCheckBox, changeShortFilmStatus}) {
 
     React.useEffect(() => {
         const searchQuery = localStorage.getItem('searchQuery');
-        if(searchQuery && !savedMoviesPage) {        
-          setValue('movie', searchQuery);        
+        if(searchQuery && !savedMoviesPage) {
+          setValue('movie', searchQuery);
         }
       }, []);
 
-    
-    const { 
+
+    const {
         register,
         formState: {errors},
         handleSubmit,
@@ -22,32 +22,32 @@ function SearchForm({onSearch, onSearchSaved, onChecked, isShortFilmChecked, sav
        } = useForm({
            mode: "onSubmit"
        });
-       
-       
-    function handleMoviesSearch() {        
+
+
+    function handleMoviesSearch() {
         localStorage.setItem('searchQuery', getValues('movie'))
-        const search = localStorage.getItem('searchQuery');        
+        const search = localStorage.getItem('searchQuery');
         onSearch(search);
     }
 
     function handleSavedMoviesSearch() {
         localStorage.setItem('searchQuerySavedMovies', getValues('movie'))
-        const search = localStorage.getItem('searchQuerySavedMovies');           
-         onSearchSaved(search);   
+        const search = localStorage.getItem('searchQuerySavedMovies');
+         onSearchSaved(search);
     }
-      
+
     return (
         <section className='search'>
             <form className='search-form' onSubmit={savedMoviesPage? handleSubmit(handleSavedMoviesSearch) : handleSubmit(handleMoviesSearch)}>
                 <input className='search-form__search-input' type='search' placeholder='Фильм'
-                {...register('movie', {                    
-                    required: 'Нужно ввести ключевое слово',                    
+                {...register('movie', {
+                    required: 'Нужно ввести ключевое слово',
                     })}
                 ></input>
                 <button className='search-form__find-button' type='submit' ></button>
             </form>
             {errors.movie && <span className='search-form__error-message'>{errors.movie.message || "Ошибка"}</span>}
-            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleCheckBox={toggleCheckBox} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={savedMoviesPage}/>
+            <FilterCheckbox onChecked={onChecked} isShortFilmChecked={isShortFilmChecked} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={savedMoviesPage}/>
             <div className='search__divider'></div>
         </section>
     );

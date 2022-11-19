@@ -22,6 +22,7 @@ function App() {
   const [movies, setMovies] = React.useState([]);
   const [searchedMovies, setSearchedMovies] = React.useState([]);
   const [likedMovies, setLikedMovies] = React.useState([]);
+  const [likedMoviesToRender, setLikedMoviesToRender] = React.useState([]);
   const [searchQuerySavedMovies, setSearchQuerySavedMovies] = React.useState();
   const [updateUserInfoResponse, setupdateUserInfoResponse] = React.useState('');
   const [isShortFilmChecked, setIsShortFilmChecked] = React.useState(false);
@@ -36,6 +37,7 @@ function App() {
   const [likeError, setLikeError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
+  const storagedSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
   const storagedSearchQuery = localStorage.getItem('searchQuery');
   const stoaragedSearchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');  //заменить на переменную состояния?
 
@@ -63,8 +65,7 @@ function App() {
   }
 
   const savedMoviesSearchResultMessage = (resultArr) => {
-    const savedFilms = JSON.parse(localStorage.getItem('savedMovies'));
-    if(savedFilms.length > 0 && resultArr.length === 0) {
+    if(storagedSavedMovies.length > 0 && resultArr.length === 0) {
       setNoFoundSavedMoviesMessage(true);
     } else {
       setNoFoundSavedMoviesMessage(false);
@@ -108,30 +109,33 @@ function App() {
 
 
   function searchSavedMovies(searchQuery) {
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    if(savedMovies !== null) {
+    if(storagedSavedMovies !== null) {
       if(!isSavedShortFilmChecked) {
-        const foundSavedFilms = searchedFilms(savedMovies, searchQuery);
+        const foundSavedFilms = searchedFilms(storagedSavedMovies, searchQuery);
         savedMoviesSearchResultMessage(foundSavedFilms);
-        setLikedMovies(foundSavedFilms);
+        setLikedMoviesToRender(foundSavedFilms);
         setSearchQuerySavedMovies(searchQuery);
       } else {
-        const foundSavedShortFilms = searchedShortFilms(savedMovies, searchQuery);
+        const foundSavedShortFilms = searchedShortFilms(storagedSavedMovies, searchQuery);
         savedMoviesSearchResultMessage(foundSavedShortFilms);
-        setLikedMovies(foundSavedShortFilms);
+        setLikedMoviesToRender(foundSavedShortFilms);
         setSearchQuerySavedMovies(searchQuery);
       }
     }
   }
 
 
-  React.useEffect(() => {
+  function toggleCheckBox() {
     if(isLogged) {
       if(storagedSearchQuery) {
-      searchMovies(storagedSearchQuery);
+        searchMovies(storagedSearchQuery);
       }
       searchSavedMovies(stoaragedSearchQuerySavedMovies);
     }
+  }
+
+  React.useEffect(() => {
+    toggleCheckBox();
   }, [isShortFilmChecked, isSavedShortFilmChecked, storagedSearchQuery, stoaragedSearchQuerySavedMovies]);
 
 
@@ -196,6 +200,7 @@ function App() {
       .then((movies) => {
         localStorage.setItem('savedMovies', JSON.stringify(movies));
         setLikedMovies(movies);
+        setLikedMoviesToRender(movies);
       })
       .catch(err => console.log(err));
   }
@@ -211,24 +216,27 @@ function App() {
   }
 
 
-  function handleLike (movie) {
+  function saveMovie (movie) {
     api.saveMovie(movie)
     .then((newMovie) => {
       const updatedSavedMovies = [...likedMovies, newMovie];
       setLikedMovies(updatedSavedMovies);
+      setLikedMoviesToRender(updatedSavedMovies);
       localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
     })
     .catch(() => setLikeError('Произошла ошибка, фильм не сохранён'));
   }
 
+  const updatedSavedMovies = (arr, deletedMovie) => arr.filter(
+    (movie) => movie._id !== deletedMovie._id,
+  );
+
   function deleteSavedMovie(movie) {
     api.deleteSavedMovie(movie._id)
     .then((deletedMovie) => {
-      const updatedSavedMovies = likedMovies.filter(
-        (movie) => movie._id !== deletedMovie._id,
-      );
-      setLikedMovies(updatedSavedMovies);
-      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
+      setLikedMovies(updatedSavedMovies(likedMovies, deletedMovie));
+      setLikedMoviesToRender(updatedSavedMovies(likedMoviesToRender, deletedMovie));
+      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies(likedMovies, deletedMovie)));
     })
     .catch(() => setLikeError('Произошла ошибка, фильм не удалён'));
   }
@@ -264,8 +272,8 @@ function App() {
             setMovies(movies);
         }
         if (savedMovies) {
-            const likedFilms = JSON.parse(savedMovies);
-            setLikedMovies(likedFilms);
+            // const likedFilms = JSON.parse(savedMovies);
+            setLikedMoviesToRender(likedMovies);
         }
         api.getContent()
             .then((user) => {
@@ -311,7 +319,7 @@ function App() {
               isLoading={isLoading}
               isLoggedIn={isLoggedIn}
               isShortFilmChecked={isShortFilmChecked}
-              handleLike={handleLike}
+              handleLike={saveMovie}
               deleteSavedMovie={deleteSavedMovie}
               noFoundMoviesMessage={noFoundMoviesMessage}
               clearAllErrors={clearAllErrors}
@@ -320,7 +328,7 @@ function App() {
           />
           <ProtectedRoute path="/saved-movies"
               component={SavedMovies}
-              movies={likedMovies}
+              movies={likedMoviesToRender}
               changeShortFilmStatus={changeSavedShortFilmStatus}
               searchQuerySavedMovies={searchQuerySavedMovies}
               isLoggedIn={isLoggedIn}

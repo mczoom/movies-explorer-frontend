@@ -6,33 +6,33 @@ import Footer from '../Footer/Footer';
 
 
 function SavedMovies({
-    deleteSavedMovie,     
+    deleteSavedMovie,
     onChecked,
-    onSearchSaved,   
+    onSearchSaved,
     updateSavedMovies,
-    movies,  
+    movies,
     isShortFilmChecked,
     toggleSavedMoviesCheckBox,
     noFoundMoviesMessage,
-    changeShortFilmStatus, 
-    clearAllErrors, 
+    changeShortFilmStatus,
+    clearAllErrors,
     serverError
-}) 
+})
 {
 
   React.useEffect(() => {
-    updateSavedMovies();    
+    updateSavedMovies();
     localStorage.setItem('searchQuerySavedMovies', '');
     clearAllErrors();
 }, []);
-        
+
     return (
         <div className='movies-page'>
           <Header />
           <main>
             <SearchForm onChecked={onChecked} onSearchSaved={onSearchSaved} toggleSavedMoviesCheckBox={toggleSavedMoviesCheckBox} isShortFilmChecked={isShortFilmChecked} changeShortFilmStatus={changeShortFilmStatus} savedMoviesPage={true} />
             <MoviesCardList movies={movies} onDelete={deleteSavedMovie} noFoundMoviesMessage={noFoundMoviesMessage} serverError={serverError} savedMoviesPage={true}/>
-          </main>           
+          </main>
           <Footer />
         </div>
     );

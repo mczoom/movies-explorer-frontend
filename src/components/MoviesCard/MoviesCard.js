@@ -9,7 +9,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
 
     const location = useLocation();
 
-    const [isLiked, setIsLiked] = React.useState(false)    
+    const [isLiked, setIsLiked] = React.useState(false)
 
     const film = {
         country: movie.country || 'n/a',
@@ -26,8 +26,8 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     }
 
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
-    
-    const isMovieSaved = savedMovies.some(function(film) {
+
+    const isMovieSaved = savedMovies.some((film) => {
         return film.movieId === movie.id;
     });
 
@@ -37,28 +37,27 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
     const durationMinutes = film.duration % 60;
 
     function removeLike(id) {
-        const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-        const cardId = savedMovies.find((movie) => movie.movieId === id)        
+        const cardId = savedMovies.find((movie) => movie.movieId === id)
         onDelete(cardId);
         setIsLiked(false);
     }
-    
-    function likeMovie() {        
+
+    function likeMovie() {
         if(!isMovieSaved) {
             handleLike(movie);
-            setIsLiked(!isLiked);            
+            setIsLiked(!isLiked);
         } else {
         removeLike(movie.id);
         }
     }
 
-    function unLikeMovie() {        
+    function unLikeMovie() {
         onDelete(movie);
         setIsLiked(false);
     }
-        
-     
-      
+
+
+
     return (
         <div className='card'>
             <a href={film.link} className='link' target='_blank' rel="noreferrer">
@@ -68,12 +67,12 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
             <a href='ya.ru' className='link' target='_blank'>
                 <span className='card__title'>{film.title}</span>
             </a>
-            {location.pathname === '/saved-movies' ? 
-                <button className='card__delete-like-button' type='button' onClick={unLikeMovie}></button> : 
+            {location.pathname === '/saved-movies' ?
+                <button className='card__delete-like-button' type='button' onClick={unLikeMovie}></button> :
                 <button className={likeButtonClassName} type='button' onClick={likeMovie}></button>
-            }                       
+            }
             </div>
-                {film.duration > 60 && (film.duration % 60) !== 0 ? 
+                {film.duration > 60 && (film.duration % 60) !== 0 ?
                 <span className='card__film-duration'>{durationHours}ч {durationMinutes}м</span> :
             <>
                 {(film.duration % 60) === 0 ?
@@ -81,7 +80,7 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
                 <span className='card__film-duration'>{durationMinutes}м</span>
                 }
             </>
-            }            
+            }
         </div>
     );
 }
