@@ -65,7 +65,7 @@ function App() {
   }
 
   const savedMoviesSearchResultMessage = (resultArr) => {
-    if(storagedSavedMovies.length > 0 && resultArr.length === 0) {
+    if(likedMovies.length > 0 && resultArr.length === 0) {
       setNoFoundSavedMoviesMessage(true);
     } else {
       setNoFoundSavedMoviesMessage(false);
@@ -109,14 +109,14 @@ function App() {
 
 
   function searchSavedMovies(searchQuery) {
-    if(storagedSavedMovies !== null) {
+    if(likedMovies !== null) {
       if(!isSavedShortFilmChecked) {
-        const foundSavedFilms = searchedFilms(storagedSavedMovies, searchQuery);
+        const foundSavedFilms = searchedFilms(likedMovies, searchQuery);
         savedMoviesSearchResultMessage(foundSavedFilms);
         setLikedMoviesToRender(foundSavedFilms);
         setSearchQuerySavedMovies(searchQuery);
       } else {
-        const foundSavedShortFilms = searchedShortFilms(storagedSavedMovies, searchQuery);
+        const foundSavedShortFilms = searchedShortFilms(likedMovies, searchQuery);
         savedMoviesSearchResultMessage(foundSavedShortFilms);
         setLikedMoviesToRender(foundSavedShortFilms);
         setSearchQuerySavedMovies(searchQuery);
@@ -264,17 +264,7 @@ function App() {
 
   function tokenCheck() {
     const token = localStorage.getItem('token');
-    const allMovies = localStorage.getItem('allMovies');
-    const savedMovies = localStorage.getItem('savedMovies');
     if (token) {
-        if (allMovies) {
-            const movies = JSON.parse(allMovies);
-            setMovies(movies);
-        }
-        if (savedMovies) {
-            // const likedFilms = JSON.parse(savedMovies);
-            setLikedMoviesToRender(likedMovies);
-        }
         api.getContent()
             .then((user) => {
               setCurrentUser(user);
