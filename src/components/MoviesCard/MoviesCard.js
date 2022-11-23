@@ -5,7 +5,7 @@ import {checkMovieTrailerUrl} from '../utils/validators';
 
 
 
-function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
+function MoviesCard({movie, likedMovies, savedMoviesPage, handleLike, onDelete}) {
 
     const location = useLocation();
 
@@ -25,25 +25,26 @@ function MoviesCard({movie, savedMoviesPage, handleLike, onDelete}) {
         nameEN: movie.nameEN || 'n/a',
     }
 
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies')) || [];
 
-    const isMovieSaved = savedMovies.some((film) => {
-        return film.movieId === movie.id;
-    });
+    function checkIsMovieSaved() {
+        if(likedMovies) {
+        return likedMovies.some((film) => film.movieId === movie.id);
+        }
+    };
 
-    const likeButtonClassName = `card__like-button ${isMovieSaved ? 'card__like-button_liked' : ''}`;
+    const likeButtonClassName = `card__like-button ${checkIsMovieSaved() ? 'card__like-button_liked' : ''}`;
 
     const durationHours = Math.floor(film.duration/60);
     const durationMinutes = film.duration % 60;
 
     function removeLike(id) {
-        const cardId = savedMovies.find((movie) => movie.movieId === id)
+        const cardId = likedMovies.find((movie) => movie.movieId === id)
         onDelete(cardId);
         setIsLiked(false);
     }
 
     function likeMovie() {
-        if(!isMovieSaved) {
+        if(!checkIsMovieSaved()) {
             handleLike(movie);
             setIsLiked(!isLiked);
         } else {

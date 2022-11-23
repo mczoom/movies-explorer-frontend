@@ -6,7 +6,7 @@ import {APIBF_BASE_URL, DESKTOP_RES, TABLET_RES, MOBILE_RES, DESKTOP, TABLET, MO
 
 
 
-function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, likeError}) {
+function MoviesCardList({movies, likedMovies, isLoading, handleLike, onDelete, savedMoviesPage, noFoundMoviesMessage, serverError, likeError}) {
 
     const location = useLocation();
 
@@ -60,7 +60,7 @@ function MoviesCardList({movies, isLoading, handleLike, onDelete, savedMoviesPag
             <ul className='movies-list__cards-container'>
                 { movies.length > 0 &&
                   renderedCards.map((movie) => (
-                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage} /></li>
+                    <li key={savedMoviesPage ? movie.movieId : movie.id}><MoviesCard movie={movie} likedMovies={likedMovies} cover={savedMoviesPage ? movie.image : `${APIBF_BASE_URL}${movie.image.url}`} handleLike={handleLike} onDelete={onDelete} savedMoviesPage={savedMoviesPage} /></li>
                   ))
                 }
             </ul>

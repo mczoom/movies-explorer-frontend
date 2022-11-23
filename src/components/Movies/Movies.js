@@ -5,7 +5,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
 
-function Movies({movies, searchMovies, isLoading, isShortFilmChecked, handleLike, deleteSavedMovie, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError, likeError}) {
+function Movies({movies, likedMovies, searchMovies, isLoading, isShortFilmChecked, handleLike, deleteSavedMovie, noFoundMoviesMessage, changeShortFilmStatus, clearAllErrors, serverError, likeError}) {
 
   React.useEffect(() => {
     clearAllErrors();
@@ -18,6 +18,7 @@ function Movies({movies, searchMovies, isLoading, isShortFilmChecked, handleLike
         <main>
           <SearchForm onSearch={searchMovies} isShortFilmChecked={isShortFilmChecked} changeShortFilmStatus={changeShortFilmStatus} />
           <MoviesCardList movies={movies}
+                          likedMovies={likedMovies}
                           isLoading={isLoading}
                           handleLike={handleLike}
                           onDelete={deleteSavedMovie}

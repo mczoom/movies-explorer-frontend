@@ -15,7 +15,6 @@ import {SHORT_MOVIE_DURATION} from '../utils/config';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 
-
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const [isLogged, setIsLogged] = React.useState(false);
@@ -37,7 +36,6 @@ function App() {
   const [likeError, setLikeError] = React.useState('');
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const storagedSavedMovies = JSON.parse(localStorage.getItem('savedMovies'));
   const storagedSearchQuery = localStorage.getItem('searchQuery');
   const stoaragedSearchQuerySavedMovies = localStorage.getItem('searchQuerySavedMovies');  //заменить на переменную состояния?
 
@@ -181,9 +179,8 @@ function App() {
         history.push('/movies');
       };
     })
-    .catch((err) => {
+    .catch(() => {
       setLoginError('Ошибка авторизации');
-      console.log('Ошибка авторизации');
     });
     if(isLoggedIn) {
       api.getContent()
@@ -198,7 +195,6 @@ function App() {
   function updateSavedMovies() {
     api.getAllSavedMovies()
       .then((movies) => {
-        localStorage.setItem('savedMovies', JSON.stringify(movies));
         setLikedMovies(movies);
         setLikedMoviesToRender(movies);
       })
@@ -222,7 +218,6 @@ function App() {
       const updatedSavedMovies = [...likedMovies, newMovie];
       setLikedMovies(updatedSavedMovies);
       setLikedMoviesToRender(updatedSavedMovies);
-      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies));
     })
     .catch(() => setLikeError('Произошла ошибка, фильм не сохранён'));
   }
@@ -236,7 +231,6 @@ function App() {
     .then((deletedMovie) => {
       setLikedMovies(updatedSavedMovies(likedMovies, deletedMovie));
       setLikedMoviesToRender(updatedSavedMovies(likedMoviesToRender, deletedMovie));
-      localStorage.setItem('savedMovies', JSON.stringify(updatedSavedMovies(likedMovies, deletedMovie)));
     })
     .catch(() => setLikeError('Произошла ошибка, фильм не удалён'));
   }
@@ -287,7 +281,7 @@ function App() {
     setIsSavedShortFilmChecked(false);
   }, [location.pathname]);
 
-
+console.log(likedMovies);
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
@@ -304,6 +298,7 @@ function App() {
           <ProtectedRoute path="/movies"
               component={Movies}
               movies={searchedMovies}
+              likedMovies={likedMovies}
               changeShortFilmStatus={changeShortFilmStatus}
               searchMovies={searchMovies}
               isLoading={isLoading}
